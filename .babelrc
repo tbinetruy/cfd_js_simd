@@ -1,4 +1,4 @@
 {
-	"presets": ["latest", "react"],
+	"presets": ["latest", "react", "stage-2"],
 	"plugins": ["transform-async-to-generator"]
 }
