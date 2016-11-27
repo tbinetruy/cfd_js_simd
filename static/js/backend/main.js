@@ -1,4 +1,6 @@
+require('pyextjs')
+
 onmessage = e => {
-	console.log(e.data)
+	console.log(numpy)
 	postMessage("foo")
 }
