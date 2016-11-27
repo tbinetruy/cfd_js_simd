@@ -6,6 +6,11 @@ import {
 	update_L,
 } from "../../../reducers/actions/ConfigBar.js"
 
+import {
+	updateChart1Data,
+	emptyChart1,
+} from "../../../reducers/actions/Charts.js"
+
 export const mapStateToProps = function(state) {
 	return {
 		nx: state.configBarReducer.nx,
@@ -23,5 +28,7 @@ export const mapDispatchToProps = function(dispatch) {
 		update_t: t => dispatch(update_t(t)),
 		update_c: c => dispatch(update_c(c)),
 		update_L: L => dispatch(update_L(L)),
+		emptyChart1: () => emptyChart1(),
+		updateChart1Data: data => dispatch(updateChart1Data(data)),
 	}
 }

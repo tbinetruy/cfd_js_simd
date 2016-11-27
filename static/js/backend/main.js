@@ -28,8 +28,9 @@ onmessage = e => {
 	}
 
 	postMessage({
-		u_0: convertToPlotData(u_0, dx),
-		u: convertToPlotData(u, dx),
+		y_0: u_0,
+		y: u,
+		dx: dx
 	})
 }
 

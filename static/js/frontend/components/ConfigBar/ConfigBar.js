@@ -1,6 +1,8 @@
 import React from "react"
 import { mapStateToProps, mapDispatchToProps } from "./containers/ConfigBar.js"
 
+const CFD_worker = new Worker("static/js/backend_bundle.js")
+
 var ReactRedux = require("react-redux")
 
 class ConfigBar_comp extends React.Component {
@@ -21,6 +23,22 @@ class ConfigBar_comp extends React.Component {
 			case "L":
 				this.props.update_L(parseInt(e.target.value))
 				break
+		}
+	}
+
+	submit = () => {
+		const config = {
+			nx: this.props.nx,
+			dt: this.props.dt,
+			t: this.props.t,
+			c: this.props.c,	
+			L: this.props.L	
+		}
+		const { nx } = config
+		CFD_worker.postMessage(config)
+
+		CFD_worker.onmessage = e => {
+			this.props.updateChart1Data(e.data)
 		}
 	}
 
@@ -63,6 +81,10 @@ class ConfigBar_comp extends React.Component {
 							value={ this.props.L }
 							onChange={ e => this.handleChange(e, 'L') } />
 					</label>
+					<input
+						value="compute"
+						type="button"
+						onClick={ this.submit }/>
 				</div>
 			</div>
 		)
@@ -81,6 +103,7 @@ ConfigBar_comp.propTypes = {
 	update_t: React.PropTypes.func,
 	update_c: React.PropTypes.func,
 	update_L: React.PropTypes.func,
+	updateChart1Data: React.PropTypes.func,
 }
 
 export const ConfigBar = ReactRedux.connect(
