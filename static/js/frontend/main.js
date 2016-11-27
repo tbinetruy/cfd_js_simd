@@ -1,9 +1,15 @@
+import React from "react"
+import ReactDOM from "react-dom"
 import Chart from "chart.js"
 
+import { Root } from "./components/Root/Root.js"
 const CFD_worker = new Worker("static/js/backend_bundle.js")
 
 // start worker
 ;(function() {
+	const mountPoint = document.getElementById("app-mount-point")
+	ReactDOM.render(<Root />, mountPoint)
+
 	const config = {
 		nx: 61,				// number of nodes in x dir
 		dt: 0.025,			// (s) timestep
