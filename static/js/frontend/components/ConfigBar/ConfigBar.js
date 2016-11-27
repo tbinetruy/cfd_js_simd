@@ -50,6 +50,7 @@ class ConfigBar_comp extends React.Component {
 						nx:
 						<input
 							type="number"
+							step="1"
 							value={ this.props.nx }
 							onChange={ e => this.handleChange(e, 'nx') } />
 					</label>
@@ -57,6 +58,7 @@ class ConfigBar_comp extends React.Component {
 						dt:
 						<input
 							type="number"
+							step="any"
 							value={ this.props.dt }
 							onChange={ e => this.handleChange(e, 'dt') } />
 					</label>
@@ -65,6 +67,7 @@ class ConfigBar_comp extends React.Component {
 						<input
 							type="number"
 							value={ this.props.t }
+							step="any"
 							onChange={ e => this.handleChange(e, 't') } />
 					</label>
 					<label>
