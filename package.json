@@ -3,7 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.html",
-  "dependencies": {},
+  "dependencies": {
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "react-redux": "^4.4.6",
+    "react-router": "^3.0.0",
+    "redux": "^3.6.0"
+  },
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-plugin-transform-regenerator": "^6.16.1",
