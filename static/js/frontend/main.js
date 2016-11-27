@@ -4,34 +4,41 @@ const CFD_worker = new Worker("static/js/backend_bundle.js")
 
 // start worker
 ;(function() {
-	CFD_worker.postMessage("hello world")
+	const config = {
+		nx: 41,				// number of nodes in x dir
+		dt: 0.025,			// (s) timestep
+		t: 0.625,			// (s) want solution at time t
+		c: 1,				// convection constant
+		L: 2,				// (m) length of mesh 
+	}
+	const { nx } = config
+	CFD_worker.postMessage(config)
 
 	CFD_worker.onmessage = e => {
-		console.log(e.data)
+		initChart(e.data)
 	}
 })()
 
 // init chart
-;(function() {
+const initChart = function({ u_0 }) {
 	const ctx = document.getElementById("initial-state-chart");
 	const initialStateChart = new Chart(ctx, {
 		type: 'line',
 		data: {
-			labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
 			datasets: [{
 				label: '# of Votes',
-				data: [0, 0, 1, 1, 0, 0],
+				data: u_0, 
 				borderWidth: 1
 			}]
 		},
 		options: {
+			responsive: true,
 			scales: {
-				yAxes: [{
-					ticks: {
-						beginAtZero:true
-					}
+				xAxes: [{
+					type: "linear",
+					position: "bottom",
 				}]
 			}
 		}
 	})
-})()
+}
