@@ -13,9 +13,9 @@ const CFD_worker = new Worker("static/js/backend_bundle.js")
 	const config = {
 		nx: 61,				// number of nodes in x dir
 		dt: 0.025,			// (s) timestep
-		t: 0.625,			// (s) want solution at time t
+		t: 1,			// (s) want solution at time t
 		c: 1,				// convection constant
-		L: 2,				// (m) length of mesh 
+		L: 5,				// (m) length of mesh 
 	}
 	const { nx } = config
 	CFD_worker.postMessage(config)
