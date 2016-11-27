@@ -7,21 +7,23 @@ var ReactRedux = require("react-redux")
 
 class ConfigBar_comp extends React.Component {
 	handleChange = (e, type) => {
+		const str = e.target.value
+
 		switch(type) {
 			case "nx":
-				this.props.update_nx(parseInt(e.target.value))
+				this.props.update_nx(parseFloat(str))
 				break
 			case "dt":
-				this.props.update_dt(parseInt(e.target.value))
+				this.props.update_dt(parseFloat(str))
 				break
 			case "t":
-				this.props.update_t(parseInt(e.target.value))
+				this.props.update_t(parseFloat(str))
 				break
 			case "c":
-				this.props.update_c(parseInt(e.target.value))
+				this.props.update_c(parseFloat(str))
 				break
 			case "L":
-				this.props.update_L(parseInt(e.target.value))
+				this.props.update_L(parseFloat(str))
 				break
 		}
 	}
@@ -58,7 +60,7 @@ class ConfigBar_comp extends React.Component {
 						dt:
 						<input
 							type="number"
-							step="any"
+							step="0.01"
 							value={ this.props.dt }
 							onChange={ e => this.handleChange(e, 'dt') } />
 					</label>
@@ -67,7 +69,7 @@ class ConfigBar_comp extends React.Component {
 						<input
 							type="number"
 							value={ this.props.t }
-							step="any"
+							step="0.01"
 							onChange={ e => this.handleChange(e, 't') } />
 					</label>
 					<label>
@@ -75,6 +77,7 @@ class ConfigBar_comp extends React.Component {
 						<input
 							type="number"
 							value={ this.props.c }
+							step="0.01"
 							onChange={ e => this.handleChange(e, 'c') } />
 					</label>
 					<label>
@@ -82,6 +85,7 @@ class ConfigBar_comp extends React.Component {
 						<input
 							type="number"
 							value={ this.props.L }
+							step="0.01"
 							onChange={ e => this.handleChange(e, 'L') } />
 					</label>
 					<input
