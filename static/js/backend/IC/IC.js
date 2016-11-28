@@ -13,31 +13,30 @@ export const computeIC_1D = {
 		})
 	},
 	burgers: (y, dx) => {
-		const phi = "exp(-(x - 4 * t)^2 / (4 * nu * (t + 1))) + exp(-(x - 4 * t - 2 * 3.14159)^2 / (4 * nu * (t + 1)))"
-		const phiprime = Algebrite.derivative(phi, 'x').toString()
-		const u = "-2 * nu * ( ("+phiprime+") / ("+phi+")) + 4"
+		// analytical solution
 		const a = Algebrite
-		const y_analytical = (t, x, nu) => {
-			const e = math.eval(a.eval(a.eval(a.eval(u, "t", t).toString(), "x", x).toString(), "nu", nu).toString())
+		const phi = "exp(-(x - 4 * t)^2 / (4 * nu * (t + 1))) + exp(-(x - 4 * t - 2 * 3.14159)^2 / (4 * nu * (t + 1)))"
+		const phiprime = a.derivative(phi, 'x').toString()
+		const u = "-2 * nu * ( ("+phiprime+") / ("+phi+")) + 4"
 
-			return e
-		}
-
+		// paramters
 		const nx = 101
 		const nt = 100
 		dx = 2 * Math.PI / (nx - 1)
 		const nu = .07
 		const dt = dx * nu
-
-		let x_0 = numpy.linspace(0, 2 * Math.PI, nx)
 		const t = 0
 
-		const y_0 = x_0.map( (x_i, i) => {
-			const y = y_analytical(t, x_i, nu) 
+		// solve for y_0
+		let x_0 = numpy.linspace(0, 2 * Math.PI, nx)
 
+		// evaluate only "x" in .map() to accelerate
+		const u_sub = a.eval(a.eval(u, "t", t).toString(), "nu", nu).toString()
+		const y_0 = x_0.map( (x_i, i) => {
+			const y = math.eval(a.eval(u_sub, "x", x_i).toString())
 			return y
 		}) 
 		
-		return { y_analytical, y_0, y }
+		return y_0
 	}
 }

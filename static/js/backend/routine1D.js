@@ -28,11 +28,8 @@ export const routine1D = userInput => {
 			u = solve_FTCS._1D(u_0, diffusion._1D, params)
 			break
 		case 4:
-			const IC = computeIC_1D.burgers(u, params.dx)
-			u_0 = IC.y_0
-			const u_a = IC.y_analytical
+			u_0 = computeIC_1D.burgers(u, params.dx)
 			console.log(u_0)
-			console.log(u_a)
 			break
 	}
 
