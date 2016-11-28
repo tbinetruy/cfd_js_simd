@@ -1,10 +1,10 @@
-import { FTBS } from "../schemes/FTBS/FTBS.js"
+import { schemes } from "../schemes/schemes.js"
 
 export const convection = {
 	linear: {
-		_1D: (u, u_i, i, dt, dx, c) => FTBS._1D.linearConv(u, u_i, i, dt, dx, c)
+		_1D: (u, u_i, i, dt, dx, c) => u_i - c * dt / dx * schemes.BS._1D.linear(u, u_i, i)
 	},
 	nonLinear: {
-		_1D: (u, u_i, i, dt, dx, c) => FTBS._1D.nonLinearConv(u, u_i, i, dt, dx, c)
+		_1D: (u, u_i, i, dt, dx, c) => u_i - u_i * dt / dx * schemes.BS._1D.linear(u, u_i, i)
 	},
 }
