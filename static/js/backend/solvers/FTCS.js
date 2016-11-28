@@ -1,5 +1,5 @@
 export const solve_FTCS = {
-	_1D: (array, scheme, params) => {
+	_1D: (array, scheme, params, BC) => {
 		const { nt, dt, dx, nu } = params
 		let y = [...array]
 		let y_temp = numpy.ones(y.length)
@@ -13,6 +13,10 @@ export const solve_FTCS = {
 				else
 					return y_i
 			})
+
+			// border conditions
+			if(BC)
+				BC(y, y_temp, dt, dx, nu)
 		}
 
 		return y

@@ -4,6 +4,7 @@ import { solve_FTCS } from "./solvers/FTCS.js"
 import { computeIC_1D } from "./IC/IC.js"
 import { compute_param_1D } from "./params/param_1D.js"
 import { solutions } from "./solutions/solutions.js"
+import { BC } from "./BC/BC.js"
 
 // experiment: 'linearConv', 'nonLinearConv', etc
 export const routine1D = userInput => {
@@ -27,7 +28,7 @@ export const routine1D = userInput => {
 			break
 		case 4:
 			u_0 = computeIC_1D.burgers(u, params)
-			u = solve_FTCS._1D(u_0, PDEs.burgers._1D, { ...params, nu: 0.07 })
+			u = solve_FTCS._1D(u_0, PDEs.burgers._1D, { ...params, nu: 0.07 }, BC.periodical._1D)
 			u_analytical = solutions.burgers._1D(params.nx, params.nt * params.dt, params.nu)
 
 			break
