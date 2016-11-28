@@ -3,6 +3,14 @@ export const CONFIG_UPDATE_DT = "CONFIG_UPDATE_DT"
 export const CONFIG_UPDATE_T = "CONFIG_UPDATE_T"
 export const CONFIG_UPDATE_C = "CONFIG_UPDATE_C"
 export const CONFIG_UPDATE_L = "CONFIG_UPDATE_L"
+export const CONFIG_UPDATE_EXP = "CONFIG_UPDATE_EXPERIMENT"
+
+export const update_exp = function(exp) {
+	return {
+		type: CONFIG_UPDATE_EXP,
+		exp,
+	}
+}
 
 export const update_nx = function(nx) {
 	return {

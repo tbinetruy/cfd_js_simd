@@ -4,6 +4,7 @@ import {
 	update_t,
 	update_c,
 	update_L,
+	update_exp,
 } from "../../../reducers/actions/ConfigBar.js"
 
 import {
@@ -18,6 +19,7 @@ export const mapStateToProps = function(state) {
 		t: state.configBarReducer.t,
 		c: state.configBarReducer.c,
 		L: state.configBarReducer.L,
+		experiment: state.configBarReducer.experiment,
 	}
 }
 
@@ -28,6 +30,7 @@ export const mapDispatchToProps = function(dispatch) {
 		update_t: t => dispatch(update_t(t)),
 		update_c: c => dispatch(update_c(c)),
 		update_L: L => dispatch(update_L(L)),
+		update_exp: exp => dispatch(update_exp(exp)),
 		emptyChart1: () => emptyChart1(),
 		updateChart1Data: data => dispatch(updateChart1Data(data)),
 	}

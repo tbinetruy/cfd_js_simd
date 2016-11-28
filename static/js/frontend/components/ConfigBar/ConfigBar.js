@@ -30,7 +30,7 @@ class ConfigBar_comp extends React.Component {
 
 	submit = () => {
 		const config = {
-			experiment: 2,
+			experiment: this.props.experiment,
 			nx: this.props.nx,
 			dt: this.props.dt,
 			t: this.props.t,
@@ -45,10 +45,21 @@ class ConfigBar_comp extends React.Component {
 		}
 	}
 
+	handleDropdownChange = e => {
+		this.props.update_exp(parseInt(e.target.value))
+	}
+
 	render() {
 		return (
 			<div id="ConfigBar--wrapper">
 				<div className="parameter-input--wrapper">
+					<label>
+						Experiment:
+						<select value={ this.props.experiment } onChange={ this.handleDropdownChange }>
+							<option value={ 1 }>1D Linear Convection</option>
+							<option value={ 2 }>1D Non-linear Convection</option>
+						</select>
+					</label>
 					<label>
 						nx:
 						<input
@@ -105,12 +116,14 @@ ConfigBar_comp.propTypes = {
 	c: React.PropTypes.number,
 	L: React.PropTypes.number,
 	t: React.PropTypes.number,
+	experiment: React.PropTypes.number,
 
 	update_nx: React.PropTypes.func,
 	update_dt: React.PropTypes.func,
 	update_t: React.PropTypes.func,
 	update_c: React.PropTypes.func,
 	update_L: React.PropTypes.func,
+	update_exp: React.PropTypes.func,
 	updateChart1Data: React.PropTypes.func,
 }
 
