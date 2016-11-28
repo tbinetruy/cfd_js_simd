@@ -1,3 +1,5 @@
+import { solve_FTBS } from "./FTBS.js"
+import { solve_FTCS } from "./FTCS.js"
 require('pyextjs')
 
 // solves 1D PDE
@@ -6,20 +8,16 @@ require('pyextjs')
 // dt: timestep
 // dx: space step in x direction
 // nt: number of timestep to iterate
-export const solver1D = (array, scheme, dt, dx, nt, c) => {
-	let u = [...array]
-	let u_temp = numpy.ones(u.length)
+export const solver1D = (array, scheme, params, experiment) => {
+	const {
+		dt,
+		dx,
+		nt,
+		c,
+		nu
+	} = params
 
-	for(let n = 0; n <= nt; n++) {
-		u_temp = [...u]
-
-		u = u_temp.map((u_i, i) => {
-			if(i > 0)
-				return scheme(u_temp, u_i, i, dt, dx, c)
-			else
-				return u_i
-		})
-	}
+	u = solve_FTBS._1D(array, scheme, nt, dt, dx, c)
 
 	return u
 }
