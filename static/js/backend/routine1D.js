@@ -29,6 +29,7 @@ export const routine1D = userInput => {
 			break
 		case 4:
 			u_0 = computeIC_1D.burgers(u, params.dx)
+			u = u_0
 			console.log(u_0)
 			break
 	}
