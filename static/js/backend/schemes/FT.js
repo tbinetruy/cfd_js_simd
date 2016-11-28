@@ -1,5 +1,5 @@
 export const FT = {
 	_1D: {
-		linear: u_i => u_i
+		linear: y_i => y_i
 	}
 }

@@ -1,6 +1,6 @@
 const BS_1D = {
-	linear: (u, u_i, i) => {
-		return u_i - u[i-1]
+	linear: (y, y_i, i) => {
+		return y_i - y[i-1]
 	}
 }
 
