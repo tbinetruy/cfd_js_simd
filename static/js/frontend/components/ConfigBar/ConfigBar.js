@@ -30,6 +30,7 @@ class ConfigBar_comp extends React.Component {
 
 	submit = () => {
 		const config = {
+			experiment: 2,
 			nx: this.props.nx,
 			dt: this.props.dt,
 			t: this.props.t,
