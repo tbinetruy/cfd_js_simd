@@ -1,3 +1,6 @@
+import { solver1D } from "./solvers/solver1D.js"
+import { FTBS } from "./schemes/FTBS/FTBS.js"
+
 require('pyextjs')
 
 onmessage = e => {
@@ -5,7 +8,10 @@ onmessage = e => {
 	const dx = L / (nx - 1)
 	const nt = t / dt			// number of timesteps to calc
 
+	// 1D
 	let u = numpy.ones(nx)
+
+	// IC
 	const u_0 = u.map( (u_i, i) => {
 		if(i >= Math.floor(0.5 / dx) && i <= Math.floor(1 / dx + 1))
 			return 2 
@@ -13,19 +19,7 @@ onmessage = e => {
 			return 1
 	})
 
-	u = u_0
-	let u_temp = numpy.ones(nx)
-
-	for(let n = 0; n <= nt; n++) {
-		u_temp = [...u]
-
-		u = u_temp.map((u_i, i) => {
-			if(i > 0)
-				return u_i - c * dt / dx * (u_i - u_temp[i-1]) 
-			else
-				return u_i
-		})
-	}
+	u = solver1D(u_0, FTBS._1D, dt, dx, nt, c)
 
 	postMessage({
 		y_0: u_0,
@@ -34,8 +28,3 @@ onmessage = e => {
 	})
 }
 
-const convertToPlotData = (y, dx) => {
-	return y.map( (y_i, i) => {
-		return { x: i * dx, y: y_i }
-	})
-}
