@@ -58,6 +58,7 @@ class ConfigBar_comp extends React.Component {
 						<select value={ this.props.experiment } onChange={ this.handleDropdownChange }>
 							<option value={ 1 }>1D Linear Convection</option>
 							<option value={ 2 }>1D Non-linear Convection</option>
+							<option value={ 3 }>1D Diffusion</option>
 						</select>
 					</label>
 					<label>
