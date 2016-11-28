@@ -1,6 +1,5 @@
 import { convection } from "./PDEs/convection.js"
 import { diffusion } from "./PDEs/diffusion.js"
-import { FTCS } from "./schemes/FTCS/FTCS.js"
 import { solve_FTBS } from "./solvers/FTBS.js"
 import { solve_FTCS } from "./solvers/FTCS.js"
 import { computeIC_1D } from "./IC/IC.js"
@@ -28,7 +27,7 @@ export const routine1D = userInput => {
 			u = solve_FTCS._1D(u_0, diffusion._1D, params)
 			break
 		case 4:
-			u_0 = computeIC_1D.burgers(u, params.dx)
+			u_0 = computeIC_1D.burgers(u, params)
 			u = u_0
 			console.log(u_0)
 			break
@@ -46,6 +45,8 @@ const experimentToString = exp => {
 			return 'nonLinearConv'
 		case 3:
 			return 'diffusion'
+		case 4:
+			return 'burgers'
 		default:
 			return 'linearConv'
 	}

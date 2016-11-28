@@ -11,13 +11,15 @@ export const computeIC_1D = {
 				return 1
 		})
 	},
-	burgers: (y, dx) => {
+	burgers: (y, params) => {
 		// paramters
-		const nx = 101
-		const nt = 100
-		dx = 2 * Math.PI / (nx - 1)
-		const nu = .07
-		const dt = dx * nu
+		const {
+			nx,
+			nt,
+			dx,
+			dt,
+			nu
+		} = params
 		const t = 0
 
 		// solve analytically for y_0
