@@ -63,6 +63,8 @@ export class Chart2D extends React.Component {
 				borderWidth: 1,
 				backgroundColor: 'rgba(0,0,0,0)'
 			})
+		else
+			this.chart.data.datasets = this.chart.data.datasets.filter( set => set.label !== 'y_analytical' )
 
 		this.chart.update()
 	}
