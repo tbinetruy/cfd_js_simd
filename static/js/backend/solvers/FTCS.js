@@ -11,15 +11,15 @@ export const solve_FTCS = {
 				var q = false
 				if(BC)
 					q = true
-				else if(i < 1 && i > y_temp.length - 1)
-					q = false
+				else if(i > 0 && i < y_temp.length - 1)
+					q = true
 					
-				if(q)
-					return scheme(y_temp, y_i, i, dt, dx, nu, BC)
-				else
+				if(q) {
+					const foo = scheme(y_temp, y_i, i, dt, dx, nu, BC)
+					return foo
+				} else
 					return y_i
 			})
-
 		}
 
 		return y
