@@ -28,7 +28,7 @@ export const routine1D = userInput => {
 			break
 		case 4:
 			u_0 = computeIC_1D.burgers(u, params)
-			u = solve_FTCS._1D(u_0, PDEs.burgers._1D, { ...params, nu: 0.07 }, BC.periodical._1D)
+			u = solve_FTCS._1D(u_0, PDEs.burgers._1D, { ...params, nu: 0.07 }, 'periodic')
 			u_analytical = solutions.burgers._1D(params.nx, params.nt * params.dt, params.nu)
 
 			break
