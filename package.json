@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.html",
   "dependencies": {
+    "algebrite": "^0.2.23",
     "chart.js": "^2.4.0",
     "pyextjs": "^0.1.2",
     "react": "^15.4.1",
