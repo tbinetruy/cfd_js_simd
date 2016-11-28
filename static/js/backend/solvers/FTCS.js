@@ -15,8 +15,7 @@ export const solve_FTCS = {
 					q = true
 					
 				if(q) {
-					const foo = scheme(y_temp, y_i, i, dt, dx, nu, BC)
-					return foo
+					return scheme(y_temp, y_i, i, dt, dx, nu, BC)
 				} else
 					return y_i
 			})
