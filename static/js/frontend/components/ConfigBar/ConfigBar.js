@@ -59,6 +59,7 @@ class ConfigBar_comp extends React.Component {
 							<option value={ 1 }>1D Linear Convection</option>
 							<option value={ 2 }>1D Non-linear Convection</option>
 							<option value={ 3 }>1D Diffusion</option>
+							<option value={ 4 }>Burgers</option>
 						</select>
 					</label>
 					<label>
