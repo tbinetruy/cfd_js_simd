@@ -1,5 +1,5 @@
-import { solver1D } from "./solvers/solver1D.js"
-import { FTBS } from "./schemes/FTBS/FTBS.js"
+import { convection } from "./PDEs/convection.js"
+import { diffusion } from "./PDEs/diffusion.js"
 import { FTCS } from "./schemes/FTCS/FTCS.js"
 import { solve_FTBS } from "./solvers/FTBS.js"
 import { solve_FTCS } from "./solvers/FTCS.js"
@@ -15,10 +15,17 @@ export const routine1D = userInput => {
 
 	const u_0 = computeIC_1D(u, params.dx)
 
-	if(experiment === 1 || experiment === 2) 
-		u = solve_FTBS._1D(u_0, FTBS._1D[experimentToString(experiment)], params)
-	else
-		u = solve_FTCS._1D(u_0, FTCS._1D[experimentToString(experiment)], params)
+	switch(experiment) {
+		case 1:
+			u = solve_FTBS._1D(u_0, convection.linear._1D, params)
+			break
+		case 2:
+			u = solve_FTBS._1D(u_0, convection.nonLinear._1D, params)
+			break
+		case 3:
+			u = solve_FTCS._1D(u_0, diffusion._1D, params)
+			break
+	}
 
 	return { u_0, u, dx: params.dx }
 }

@@ -19,17 +19,15 @@ export const compute_param_1D = {
 	},
 	diffusion: ({ t, nx, L, nu = 0.3, sigma = 0.2}) => {
 		const dx = L / (nx - 1)
-		const dt = sigma * Math.pow(dx, 2)
+		const dt = sigma * Math.pow(dx, 2) / nu
 		const nt = Math.floor(t / dt)
 
-		const a = {
+		return {
 			nt,
 			nx,
 			dx,
 			nu,
 			dt,
 		}
-
-		return a
 	},
 }
