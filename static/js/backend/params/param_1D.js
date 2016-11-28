@@ -30,10 +30,10 @@ export const compute_param_1D = {
 			dt,
 		}
 	},
-	burgers: ({ t, nx, L, nu = 0.3 }) => {
-		const nt = Math.floor(t / dt)
+	burgers: ({ t, nx, L, nu = 0.07 }) => {
 		const dx = 2 * Math.PI / (nx - 1)
 		const dt = dx * nu
+		const nt = Math.floor(t / dt)
 
 		return {
 			nt,

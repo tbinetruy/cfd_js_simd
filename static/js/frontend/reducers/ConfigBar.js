@@ -8,11 +8,11 @@ import {
 } from "./actions/ConfigBar.js"
 
 export const defaultState = {
-	nx: 81,				// number of nodes in x dir
-	dt: 0.025,			// (s) timestep
-	t: 0.65,				// (s) want solution at time t
+	nx: 101,				// number of nodes in x dir
+	dt: 0.0044,			// (s) timestep
+	t: 0.43,				// (s) want solution at time t
 	c: 1,				// convection constant
-	L: 5,				// (m) length of mesh 
+	L: 2,				// (m) length of mesh 
 	experiment: 1,		// (int) experiment (1d linear conv, 2d diff etc)
 }
 

@@ -52,9 +52,18 @@ export class Chart2D extends React.Component {
 		})
 	}
 
-	updateChart = (y_0, y, dx) => {
+	updateChart = (y_0, y, dx, props) => {
 		this.chart.data.datasets[0].data = this.convertToPlotData(y_0, dx) 
 		this.chart.data.datasets[1].data = this.convertToPlotData(y, dx)
+		
+		if(props.data.y_analytical.length > 0)
+			this.chart.data.datasets.push({
+				label: 'y_analytical',
+				data: this.convertToPlotData(props.data.y_analytical, props.data.dx),
+				borderWidth: 1,
+				backgroundColor: 'rgba(0,0,0,0)'
+			})
+
 		this.chart.update()
 	}
 
@@ -68,7 +77,7 @@ export class Chart2D extends React.Component {
 		const y_0 = this.convertToPlotData(nextProps.data.y_0, nextProps.data.dx)
 		const y = this.convertToPlotData(nextProps.data.y, nextProps.data.dx)
 
-		this.updateChart(y_0, y, nextProps.data.dx)
+		this.updateChart(y_0, y, nextProps.data.dx, nextProps)
 	}
 
 	render() {
