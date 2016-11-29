@@ -22,6 +22,9 @@ class ConfigBar_comp extends React.Component {
 			case "c":
 				this.props.update_c(parseFloat(str))
 				break
+			case "nu":
+				this.props.update_nu(parseFloat(str))
+				break
 			case "L":
 				this.props.update_L(parseFloat(str))
 				break
@@ -31,10 +34,12 @@ class ConfigBar_comp extends React.Component {
 	submit = () => {
 		const config = {
 			experiment: this.props.experiment,
+			solver: this.props.solver,
 			nx: this.props.nx,
 			dt: this.props.dt,
 			t: this.props.t,
 			c: this.props.c,	
+			nu: this.props.nu,
 			L: this.props.L	
 		}
 		const { nx } = config
@@ -57,8 +62,6 @@ class ConfigBar_comp extends React.Component {
 	}
 
 	render = () => {
-		const a = 0
-		console.log(this)
 		return (
 			<div id="ConfigBar--wrapper">
 				<div className="parameter-input--wrapper">
@@ -111,6 +114,14 @@ class ConfigBar_comp extends React.Component {
 							onChange={ e => this.handleChange(e, 'c') } />
 					</label>
 					<label>
+						nu:
+						<input
+							type="number"
+							value={ this.props.nu }
+							step="0.01"
+							onChange={ e => this.handleChange(e, 'nu') } />
+					</label>
+					<label>
 						L:
 						<input
 							type="number"
@@ -132,6 +143,7 @@ ConfigBar_comp.propTypes = {
 	nx: React.PropTypes.number,
 	dt: React.PropTypes.number,
 	c: React.PropTypes.number,
+	nu: React.PropTypes.number,
 	L: React.PropTypes.number,
 	t: React.PropTypes.number,
 	experiment: React.PropTypes.number,
@@ -141,6 +153,7 @@ ConfigBar_comp.propTypes = {
 	update_dt: React.PropTypes.func,
 	update_t: React.PropTypes.func,
 	update_c: React.PropTypes.func,
+	update_nu: React.PropTypes.func,
 	update_L: React.PropTypes.func,
 	update_exp: React.PropTypes.func,
 	update_solv: React.PropTypes.func,

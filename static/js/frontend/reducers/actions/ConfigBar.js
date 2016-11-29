@@ -5,7 +5,7 @@ export const CONFIG_UPDATE_C = "CONFIG_UPDATE_C"
 export const CONFIG_UPDATE_L = "CONFIG_UPDATE_L"
 export const CONFIG_UPDATE_EXP = "CONFIG_UPDATE_EXPERIMENT"
 export const CONFIG_UPDATE_SOLV = "CONFIG_UPDATE_SOLVER"
-
+export const CONFIG_UPDATE_NU = "CONFIG_UPDATE_NU" 
 
 export const update_solv = function(solver) {
 	return {
@@ -44,6 +44,12 @@ export const update_c = function(c) {
 	return {
 		type: CONFIG_UPDATE_C,
 		c,
+	}
+}
+export const update_nu = function(nu) {
+	return {
+		type: CONFIG_UPDATE_NU,
+		nu,
 	}
 }
 export const update_L = function(L) {
