@@ -1,3 +1,8 @@
+export const getBC_type = {
+	1: 'default',
+	2: 'periodic',
+}
+
 export const getSolver = {
 	1: 'explicit',
 	2: 'implicit',

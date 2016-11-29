@@ -40,7 +40,8 @@ class ConfigBar_comp extends React.Component {
 			t: this.props.t,
 			c: this.props.c,	
 			nu: this.props.nu,
-			L: this.props.L	
+			L: this.props.L,
+			BC_type: this.props.BC,
 		}
 		const { nx } = config
 		CFD_worker.postMessage(config)

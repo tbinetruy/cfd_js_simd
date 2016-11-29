@@ -1,4 +1,4 @@
-import { getSolver, getEqn } from "./app_config.js"
+import { getSolver, getEqn, getBC_type } from "./app_config.js"
 import { PDEs } from "./PDEs/PDEs.js"
 import { solvers } from "./solvers/solvers.js"
 import { computeIC_1D } from "./IC/IC.js"
@@ -8,7 +8,7 @@ import { BC } from "./BC/BC.js"
 
 // experiment: 'linearConv', 'nonLinearConv', etc
 export const routine1D = userInput => {
-	const { experiment, nx, solver } = userInput
+	const { experiment, nx, solver, BC_type } = userInput
 	const params = compute_param_1D[experimentToString(experiment)](userInput)
 	let u_0, u_analytical
 	let u = numpy.ones(nx)
@@ -36,7 +36,7 @@ export const routine1D = userInput => {
 
 			break
 	}
-	u = solvers[getSolver[solver]]._1D(u_0, PDEs[getEqn[experiment]][getSolver[solver]]._1D, params)
+	u = solvers[getSolver[solver]]._1D(u_0, PDEs[getEqn[experiment]][getSolver[solver]]._1D, params, getBC_type[BC_type])
 
 	return { u_0, u, u_analytical, dx: params.dx }
 }
