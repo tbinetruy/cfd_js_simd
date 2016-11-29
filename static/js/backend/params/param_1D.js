@@ -28,6 +28,7 @@ export const compute_param_1D = {
 			dx,
 			nu,
 			dt,
+			c: nu,
 		}
 	},
 	burgers: ({ t, nx, L, nu = 0.07 }) => {
@@ -40,7 +41,8 @@ export const compute_param_1D = {
 			nx,
 			dx,
 			dt,
-			nu
+			nu,
+			c: nu,
 		}
 	}
 }
