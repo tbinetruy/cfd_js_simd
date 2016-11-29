@@ -1,5 +1,5 @@
 export const explicit = {
-	forwardEuler: (array, scheme, params, BC) => {
+	_1D: (array, scheme, params, BC) => {
 		const { nt, dt, dx, c } = params
 		let y = [...array]
 		let y_temp = numpy.ones(y.length)

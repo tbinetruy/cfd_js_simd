@@ -1,7 +1,7 @@
 import numeric from "numeric"
 
 export const implicit = {
-	forwardEuler: (array, scheme, params, BC) => {
+	_1D: (array, scheme, params, BC) => {
 		const { nt, dt, dx, c, sigma } = params
 		const y_0 = [...array]
 

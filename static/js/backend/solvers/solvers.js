@@ -3,8 +3,6 @@ import { implicit } from "./implicit.js"
 
 
 export const solvers = {
-	_1D: {
-		explicit,
-		implicit,
-	}
+	explicit,
+	implicit,
 }
