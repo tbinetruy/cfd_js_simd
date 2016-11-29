@@ -15,16 +15,18 @@ export const routine1D = userInput => {
 	switch(experiment) {
 		case 1:
 			u_0 = computeIC_1D.hat(u, params.dx)
-			u = solvers.explicit._1D(u_0, PDEs.convection.linear._1D, params)
-			u = solvers.implicit._1D(u_0, PDEs.convection.linear, {...params, sigma: 0.1})
+			u = solvers.explicit._1D(u_0, PDEs.convection.explicit._1D, params)
+			u = solvers.implicit._1D(u_0, PDEs.convection.implicit._1D, {...params, sigma: 0.1})
 			break
 		case 2:
 			u_0 = computeIC_1D.hat(u, params.dx)
-			u = solvers.explicit._1D(u_0, PDEs.convection.nonLinear._1D, params)
+			u = solvers.explicit._1D(u_0, PDEs.convection.explicit._1D, params)
+			u = solvers.implicit._1D(u_0, PDEs.convection.implicit._1D, {...params, sigma: 0.1})
 			break
 		case 3:
 			u_0 = computeIC_1D.hat(u, params.dx)
-			u = solvers.explicit._1D(u_0, PDEs.diffusion._1D, { ...params, c: params.nu })
+			u = solvers.explicit._1D(u_0, PDEs.diffusion.explicit._1D, { ...params, c: params.nu })
+			u = solvers.implicit._1D(u_0, PDEs.diffusion.implicit._1D, {...params, sigma: 0.5})
 			break
 		case 4:
 			u_0 = computeIC_1D.burgers(u, params)
