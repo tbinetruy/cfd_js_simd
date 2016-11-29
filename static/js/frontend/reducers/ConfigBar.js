@@ -8,6 +8,7 @@ import {
 	CONFIG_UPDATE_SOLV,
 	CONFIG_UPDATE_NU,
 	CONFIG_UPDATE_BC_TYPE,
+	CONFIG_UPDATE_BC,
 } from "./actions/ConfigBar.js"
 
 export const defaultState = {
@@ -20,10 +21,37 @@ export const defaultState = {
 	experiment: 1,		// (int) experiment (1d linear conv, 2d diff etc)
 	solver: 1,			// (int) solver (explicit, implicit, later dual time etc)
 	BC_type: 1,			// (int) BC type (periodic, etc)
+	BC: {				// (obj) stores boundary condition info at edges
+		dirichlet: {	// (obj) dirichlet constants
+			east: 0,	// (number) constant to apply at right edge
+			west: 0,	// (number) constnat to apply at left edge
+		},
+		neumann: {		// (obj) neumann constants
+			east: 0,
+			west: 0,
+		},
+	}
 }
 
 export const configBarReducer = function(state = defaultState, action) {
 	switch(action.type) {
+		case CONFIG_UPDATE_BC:
+			return {
+				...state,
+				BC: {
+					...state.BC,
+					dirichlet: {
+						...state.BC.dirichlet,
+						east: action.dirichlet.east,
+						west: action.dirichlet.west,
+					},
+					neumann: {
+						...state.BC.neumann,
+						east: action.neumann.east,
+						west: action.neumann.west
+					}
+				}
+			}
 		case CONFIG_UPDATE_BC_TYPE:
 			return {
 				...state,

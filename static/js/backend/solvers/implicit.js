@@ -1,4 +1,5 @@
 import numeric from "numeric"
+import { BC as getBC } from "../BC/BC.js"
 
 export const implicit = {
 	_1D: (array, scheme, params, BC) => {
@@ -13,27 +14,46 @@ export const implicit = {
 			let A = [...A_0]
 
 			A_0.map( 
-				(e, r) => e.map(
-					(e, c) => {
-						if(r === 0 && c === 0) {
+					(e, r) => {
+						if(r === 0) {
 							A[r][r+1] = scheme(dx, dt, nu, alpha).ud
-						} else if(r === A.length - 1 && c === A.length - 1) {
+							if(BC.neumann)
+								if(BC.neumann.west)
+									A[r][r] += getBC.neumann.implicit.euler(BC.neumann.west, dx)
+						} else if(r === A.length - 1) {
 							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
-							//A[r][r] = 1 scheme(dx, dt, nu, alpha).d_last
-							console.log(A[r][r]);
-						} else if(r === c && (r !== 0 && r !== A.length - 1)) {
+						} else if(r !== 0 && r !== A.length - 1) {
 							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
 							A[r][r+1] = scheme(dx, dt, nu, alpha).ud
+
+							if(BC.neumann)
+								if(BC.neumann.east)
+									A[r][r] += getBC.neumann.implicit.euler(BC.neumann.east, dx)
 						}
 					}
 				)
-			)
 			console.log(A, scheme)
 			return A
 		}
 
 		const generateRHS = y => {
-			let RHS = y.map( (e, i) => e)
+			let RHS = y.map( (e, i) => {
+				if(BC.neumann) {
+					if(DB.neumann.west)
+						e += getBC.neumann.implicit.euler(BC.neumann.west, dx)
+					
+					if(BC.neumann.east)
+						e += getBC.neumann.implicit.euler(BC.neumann.east, dx)
+				}
+
+				if(BC.dirichlet) {
+					if(DB.dirichlet.west)
+						e += getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx)
+					
+					if(BC.neumann.east)
+						e += getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx)
+				}
+			})
 			RHS.splice(RHS.length-1, 1)
 			RHS.splice(0, 1)
 
