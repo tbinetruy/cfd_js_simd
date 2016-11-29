@@ -6,9 +6,9 @@ export const computeIC_1D = {
 	hat: (y, dx) => {
 		return y.map( (y_i, i) => {
 			if(i >= Math.floor(0.5 / dx) && i <= Math.floor(1 / dx + 1))
-				return 2 
+				return 1 
 			else
-				return 1
+				return 0
 		})
 	},
 	burgers: (y, params) => {

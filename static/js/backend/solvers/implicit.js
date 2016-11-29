@@ -33,20 +33,22 @@ export const implicit = {
 		}
 
 		const generateRHS = y => {
-			let RHS = y.map( (e, i) => 2-e)
+			let RHS = y.map( (e, i) => e)
 			RHS.splice(RHS.length-1, 1)
 			RHS.splice(0, 1)
 
-			RHS[0] += y[0]
-			RHS[RHS.length - 1] += y[y.length - 1]
+			//RHS[0] += y[0]
+			//RHS[RHS.length - 1] += y[y.length - 1]
 
 			return RHS
 		}
 
 		const A = generateMatrix(y_0.length)
+		let y_00 = numpy.ones(params.nx)
 		let y = [...y_0]
 		for(let i = 0; i < nt; i++) {
-			const y_temp = [].concat(y)
+			let y_temp = [].concat(y)
+			// y_temp = y.map( e => e < 1 ? 1 : e)
 			const b = generateRHS(y_temp)
 			
 			const y_interior = numeric.solve(A, b)

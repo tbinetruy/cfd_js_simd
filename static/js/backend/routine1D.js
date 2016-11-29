@@ -16,32 +16,20 @@ export const routine1D = userInput => {
 	switch(experiment) {
 		case 1:
 			u_0 = computeIC_1D.hat(u, params.dx)
-			u = solvers[getSolver[solver]]._1D(u_0, PDEs[getEqn[experiment]][getSolver[solver]]._1D, params)
-			//u = solvers.implicit._1D(u_0, PDEs.convection.implicit._1D, {...params, sigma: 0.1})
 			break
 		case 2:
 			u_0 = computeIC_1D.hat(u, params.dx)
-			u = solvers.explicit._1D(u_0, PDEs.convection.explicit._1D, params)
-			//u = solvers.implicit._1D(u_0, PDEs.convection.implicit._1D, {...params, sigma: 0.1})
 			break
 		case 3:
 			u_0 = computeIC_1D.hat(u, params.dx)
-			u = solvers.explicit._1D(u_0, PDEs.diffusion.explicit._1D, { ...params, c: params.nu })
-			// u = solvers.implicit._1D(u_0, PDEs.diffusion.implicit._1D, {...params, sigma: 0.5})
 			break
 		case 4:
 			u_0 = computeIC_1D.burgers(u, params)
-			// u = solvers.explicit._1D(u_0, PDEs.burgers.explicit._1D, { ...params, c: params.nu }, 'periodic')
 			u_analytical = solutions.burgers._1D(params.nx, params.nt * params.dt, params.nu)
-
 			break
 	}
-	// u = solvers[getSolver[solver]]._1D(u_0, PDEs[getEqn[experiment]][getSolver[solver]]._1D, params, getBC_type[BC_type])
-	// debugger
+
 	u = solvers[getSolver[solver]]._1D(u_0, PDEs[getEqn[experiment]][getSolver[solver]]._1D, params, getBC_type[BC_type])
-	//u = solvers.explicit._1D(u_0, PDEs.burgers.explicit._1D, { ...params, c: params.nu }, getBC_type[BC_type])
-	console.log(params)
-	//u = solvers.explicit._1D(u_0, PDEs.burgers.explicit._1D, params, getBC_type[BC_type])
 
 	return { u_0, u, u_analytical, dx: params.dx }
 }
