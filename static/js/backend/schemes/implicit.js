@@ -3,7 +3,7 @@ export const implicit = {
 		backwardTime: {
 			_1D: (dx, dt, c)  => {
 				const sigma = c * dt / dx
-				console.log(sigma)
+				//console.log(sigma)
 				return {
 					ld: 0,
 					d: 1,
@@ -14,19 +14,20 @@ export const implicit = {
 		centeredSpace: {
 			_1D: (dx, dt, c) => {
 				const sigma = c * dt / dx
-				console.log(sigma)
+				//console.log(sigma)
 				return {
-					ld: -sigma,
-					d: (2 * sigma),
-					ud: -sigma
+					ld: sigma,
+					d: -(2 * sigma),
+					d_last: -sigma,
+					ud: sigma
 				}
 			}
 		},
 		backwardSpace: {
 			_1D: (dx, dt, c) => {
 				const sigma = c * dt / dx
-				console.log(dx, dt, c)
-				console.log(sigma);
+				//console.log(dx, dt, c)
+				//console.log(sigma);
 				return {
 					ld: -sigma,
 					d: (sigma),

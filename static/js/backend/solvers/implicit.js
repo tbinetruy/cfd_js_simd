@@ -7,7 +7,7 @@ export const implicit = {
 		const nu = 0.7
 		const alpha = 2
 
-		const generateMatrix = (N, sigma) => {
+		const generateMatrix = (N) => {
 
 			let A_0 = numeric.diag(numpy.ones(N-2).map( e => e*(scheme(dx, dt, nu, alpha).d)))	
 			let A = [...A_0]
@@ -15,11 +15,13 @@ export const implicit = {
 			A_0.map( 
 				(e, r) => e.map(
 					(e, c) => {
-						if(r === 0 && c === 0)
+						if(r === 0 && c === 0) {
 							A[r][r+1] = scheme(dx, dt, nu, alpha).ud
-						else if(r === A.length - 1 && c === A.length - 1)
+						} else if(r === A.length - 1 && c === A.length - 1) {
 							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
-						else if(r === c && (r !== 0 && r !== A.length - 1)){
+							//A[r][r] = 1 scheme(dx, dt, nu, alpha).d_last
+							console.log(A[r][r]);
+						} else if(r === c && (r !== 0 && r !== A.length - 1)) {
 							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
 							A[r][r+1] = scheme(dx, dt, nu, alpha).ud
 						}
@@ -30,8 +32,8 @@ export const implicit = {
 			return A
 		}
 
-		const generateRHS = (y, sigma) => {
-			let RHS = y.map( (e, i) => e )
+		const generateRHS = y => {
+			let RHS = y.map( (e, i) => 2-e)
 			RHS.splice(RHS.length-1, 1)
 			RHS.splice(0, 1)
 
@@ -41,17 +43,18 @@ export const implicit = {
 			return RHS
 		}
 
-		const A = generateMatrix(y_0.length, sigma)
+		const A = generateMatrix(y_0.length)
 		let y = [...y_0]
 		for(let i = 0; i < nt; i++) {
 			const y_temp = [].concat(y)
-			const b = generateRHS(y_temp, sigma)
+			const b = generateRHS(y_temp)
 			
 			const y_interior = numeric.solve(A, b)
 			y = [...y_interior]
 			y.unshift(y_0[0])
-			y.push(y_0[y.length-2])
+			y.push(y_0[y_0.length-1])
 		}
+		console.log(y)
 		return y
 	}
 }
