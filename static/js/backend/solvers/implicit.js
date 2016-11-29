@@ -4,8 +4,8 @@ export const implicit = {
 	_1D: (array, scheme, params, BC) => {
 		const { nt, dt, dx, sigma } = params
 		const y_0 = [...array]
-		const nu = 0.7
-		const alpha = 2
+		const nu = params.nu
+		const alpha = params.c
 
 		const generateMatrix = (N) => {
 

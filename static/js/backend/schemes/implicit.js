@@ -14,6 +14,7 @@ export const implicit = {
 		centeredSpace: {
 			_1D: (dx, dt, c) => {
 				const sigma = c * dt / dx
+				console.log(c)
 				//console.log(sigma)
 				return {
 					ld: sigma,
