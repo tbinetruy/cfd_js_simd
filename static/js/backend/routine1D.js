@@ -16,6 +16,7 @@ export const routine1D = userInput => {
 		case 1:
 			u_0 = computeIC_1D.hat(u, params.dx)
 			u = solvers._1D.explicit.forwardEuler(u_0, PDEs.convection.linear._1D, params)
+			solvers._1D.implicit.forwardEuler(u_0, PDEs.convection.linear, params)
 			break
 		case 2:
 			u_0 = computeIC_1D.hat(u, params.dx)
