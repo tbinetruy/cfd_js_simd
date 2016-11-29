@@ -7,7 +7,7 @@ import { BC } from "./BC/BC.js"
 
 // experiment: 'linearConv', 'nonLinearConv', etc
 export const routine1D = userInput => {
-	const { experiment, nx } = userInput
+	const { experiment, nx, solver } = userInput
 	const params = compute_param_1D[experimentToString(experiment)](userInput)
 	let u_0, u_analytical
 	let u = numpy.ones(nx)
@@ -16,7 +16,7 @@ export const routine1D = userInput => {
 		case 1:
 			u_0 = computeIC_1D.hat(u, params.dx)
 			u = solvers.explicit._1D(u_0, PDEs.convection.explicit._1D, params)
-			u = solvers.implicit._1D(u_0, PDEs.convection.implicit._1D, {...params, sigma: 0.1})
+			//u = solvers.implicit._1D(u_0, PDEs.convection.implicit._1D, {...params, sigma: 0.1})
 			break
 		case 2:
 			u_0 = computeIC_1D.hat(u, params.dx)

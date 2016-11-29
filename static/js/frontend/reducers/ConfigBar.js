@@ -5,6 +5,7 @@ import {
 	CONFIG_UPDATE_C,
 	CONFIG_UPDATE_L,
 	CONFIG_UPDATE_EXP,
+	CONFIG_UPDATE_SOLV,
 } from "./actions/ConfigBar.js"
 
 export const defaultState = {
@@ -14,10 +15,16 @@ export const defaultState = {
 	c: 1,				// convection constant
 	L: 2,				// (m) length of mesh 
 	experiment: 1,		// (int) experiment (1d linear conv, 2d diff etc)
+	solver: 1,			// (int) solver (explicit, implicit, later dual time etc)
 }
 
 export const configBarReducer = function(state = defaultState, action) {
 	switch(action.type) {
+		case CONFIG_UPDATE_SOLV:
+			return {
+				...state,
+				solver: action.solver
+			}
 		case CONFIG_UPDATE_EXP:
 			return {
 				...state,

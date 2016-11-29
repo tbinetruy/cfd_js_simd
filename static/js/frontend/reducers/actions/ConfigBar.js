@@ -4,6 +4,15 @@ export const CONFIG_UPDATE_T = "CONFIG_UPDATE_T"
 export const CONFIG_UPDATE_C = "CONFIG_UPDATE_C"
 export const CONFIG_UPDATE_L = "CONFIG_UPDATE_L"
 export const CONFIG_UPDATE_EXP = "CONFIG_UPDATE_EXPERIMENT"
+export const CONFIG_UPDATE_SOLV = "CONFIG_UPDATE_SOLVER"
+
+
+export const update_solv = function(solver) {
+	return {
+		type: CONFIG_UPDATE_SOLV,
+		solver,
+	}
+}
 
 export const update_exp = function(exp) {
 	return {

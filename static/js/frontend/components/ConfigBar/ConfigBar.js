@@ -45,21 +45,37 @@ class ConfigBar_comp extends React.Component {
 		}
 	}
 
-	handleDropdownChange = e => {
-		this.props.update_exp(parseInt(e.target.value))
+	handleDropdownChange = (e, type) => {
+		switch(type) {
+			case 'exp':
+				this.props.update_exp(parseInt(e.target.value))
+				break
+			case 'solv':
+				this.props.update_solv(parseInt(e.target.value))
+				break
+		}
 	}
 
-	render() {
+	render = () => {
+		const a = 0
+		console.log(this)
 		return (
 			<div id="ConfigBar--wrapper">
 				<div className="parameter-input--wrapper">
 					<label>
-						Experiment:
-						<select value={ this.props.experiment } onChange={ this.handleDropdownChange }>
-							<option value={ 1 }>1D Linear Convection</option>
-							<option value={ 2 }>1D Non-linear Convection</option>
-							<option value={ 3 }>1D Diffusion</option>
-							<option value={ 4 }>Burgers</option>
+						experiment:
+						<select value={ this.props.experiment } onChange={ e => this.handleDropdownChange(e, 'exp') }>
+							<option value={ 1 }>1d linear convection</option>
+							<option value={ 2 }>1d non-linear convection</option>
+							<option value={ 3 }>1d diffusion</option>
+							<option value={ 4 }>burgers</option>
+						</select>
+					</label>
+					<label>
+						solver:
+						<select value={ this.props.solver } onChange={ e => this.handleDropdownChange(e, 'solv') }>
+							<option value={ 1 }>explicit</option>
+							<option value={ 2 }>implicit</option>
 						</select>
 					</label>
 					<label>
@@ -119,6 +135,7 @@ ConfigBar_comp.propTypes = {
 	L: React.PropTypes.number,
 	t: React.PropTypes.number,
 	experiment: React.PropTypes.number,
+	solver: React.PropTypes.number,
 
 	update_nx: React.PropTypes.func,
 	update_dt: React.PropTypes.func,
@@ -126,6 +143,7 @@ ConfigBar_comp.propTypes = {
 	update_c: React.PropTypes.func,
 	update_L: React.PropTypes.func,
 	update_exp: React.PropTypes.func,
+	update_solv: React.PropTypes.func,
 	updateChart1Data: React.PropTypes.func,
 }
 
