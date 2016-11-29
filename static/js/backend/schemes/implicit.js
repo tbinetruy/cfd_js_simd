@@ -1,7 +1,9 @@
 export const implicit = {
 	euler: {
 		backwardTime: {
-			_1D: () => {
+			_1D: (dx, dt, c)  => {
+				const sigma = c * dt / dx
+				console.log(sigma)
 				return {
 					ld: 0,
 					d: 1,
@@ -10,20 +12,25 @@ export const implicit = {
 			}
 		},
 		centeredSpace: {
-			_1D: sigma => {
+			_1D: (dx, dt, c) => {
+				const sigma = c * dt / dx
+				console.log(sigma)
 				return {
-					ld: -1,
-					d: 1 + 1 / sigma,
-					ud: -1
+					ld: -sigma,
+					d: (2 * sigma),
+					ud: -sigma
 				}
 			}
 		},
 		backwardSpace: {
-			_1D: sigma => {
+			_1D: (dx, dt, c) => {
+				const sigma = c * dt / dx
+				console.log(dx, dt, c)
+				console.log(sigma);
 				return {
-					ld: -1,
-					d: 1 / sigma,
-					ud: 0
+					ld: -sigma,
+					d: (sigma),
+					ud: 0,
 				}
 			}
 		}

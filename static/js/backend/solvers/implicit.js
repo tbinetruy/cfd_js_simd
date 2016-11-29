@@ -2,26 +2,26 @@ import numeric from "numeric"
 
 export const implicit = {
 	_1D: (array, scheme, params, BC) => {
-		const { nt, dt, dx, c, sigma } = params
+		const { nt, dt, dx, sigma } = params
 		const y_0 = [...array]
+		const nu = 0.7
+		const alpha = 2
 
 		const generateMatrix = (N, sigma) => {
 
-			let A_0 = numeric.diag(numpy.ones(N-2).map( e => e*(2+1/sigma)))	
-			A_0 = numeric.diag(numpy.ones(N-2).map( e => e*(1+1/sigma)))	
-			A_0 = numeric.diag(numpy.ones(N-2).map( e => e*(scheme(sigma).d)))	
+			let A_0 = numeric.diag(numpy.ones(N-2).map( e => e*(scheme(dx, dt, nu, alpha).d)))	
 			let A = [...A_0]
 
 			A_0.map( 
 				(e, r) => e.map(
 					(e, c) => {
 						if(r === 0 && c === 0)
-							A[r][r+1] = scheme(sigma).ud
+							A[r][r+1] = scheme(dx, dt, nu, alpha).ud
 						else if(r === A.length - 1 && c === A.length - 1)
-							A[r][r-1] = scheme(sigma).ld
+							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
 						else if(r === c && (r !== 0 && r !== A.length - 1)){
-							A[r][r-1] = scheme(sigma).ld
-							A[r][r+1] = scheme(sigma).ud
+							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
+							A[r][r+1] = scheme(dx, dt, nu, alpha).ud
 						}
 					}
 				)
@@ -31,7 +31,7 @@ export const implicit = {
 		}
 
 		const generateRHS = (y, sigma) => {
-			let RHS = y.map( (e, i) => e * 1/sigma )
+			let RHS = y.map( (e, i) => e )
 			RHS.splice(RHS.length-1, 1)
 			RHS.splice(0, 1)
 
