@@ -59,8 +59,8 @@ class ConfigBar_comp extends React.Component {
 			case 'solv':
 				this.props.update_solv(parseInt(e.target.value))
 				break
-			case 'BC':
-				this.props.update_BC(parseInt(e.target.value))
+			case 'BC_type':
+				this.props.update_BC_type(parseInt(e.target.value))
 				break
 		}
 	}
@@ -87,7 +87,7 @@ class ConfigBar_comp extends React.Component {
 					</label>
 					<label>
 						BC:
-						<select value={ this.props.BC } onChange={ e => this.handleDropdownChange(e, 'BC') }>
+						<select value={ this.props.BC } onChange={ e => this.handleDropdownChange(e, 'BC_type') }>
 							<option value={ 1 }>default</option>
 							<option value={ 2 }>periodic</option>
 						</select>
@@ -159,7 +159,8 @@ ConfigBar_comp.propTypes = {
 	t: React.PropTypes.number,
 	experiment: React.PropTypes.number,
 	solver: React.PropTypes.number,
-	BC: React.PropTypes.number,
+	BC: React.PropTypes.object,
+	BC_type: React.PropTypes.number, //legacy
 
 	update_nx: React.PropTypes.func,
 	update_dt: React.PropTypes.func,
@@ -171,6 +172,7 @@ ConfigBar_comp.propTypes = {
 	update_solv: React.PropTypes.func,
 	updateChart1Data: React.PropTypes.func,
 	update_BC: React.PropTypes.func,
+	update_BC_type: React.PropTypes.func,	// legacy
 }
 
 export const ConfigBar = ReactRedux.connect(

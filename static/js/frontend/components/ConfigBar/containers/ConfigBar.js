@@ -8,6 +8,7 @@ import {
 	update_exp,
 	update_solv,
 	update_BC_type,
+	update_BC,
 } from "../../../reducers/actions/ConfigBar.js"
 
 import {
@@ -25,7 +26,8 @@ export const mapStateToProps = function(state) {
 		L: state.configBarReducer.L,
 		experiment: state.configBarReducer.experiment,
 		solver: state.configBarReducer.solver,
-		BC: state.configBarReducer.BC_type,
+		BC_type: state.configBarReducer.BC_type, 	// legacy
+		BC: state.configBarReducer.BC, 	
 	}
 }
 
@@ -41,6 +43,7 @@ export const mapDispatchToProps = function(dispatch) {
 		update_solv: solv => dispatch(update_solv(solv)),
 		emptyChart1: () => emptyChart1(),
 		updateChart1Data: data => dispatch(updateChart1Data(data)),
-		update_BC: BC_type => dispatch(update_BC_type(BC_type)),
+		update_BC_type: BC_type => dispatch(update_BC_type(BC_type)),		// legacy
+		update_BC: BC => dispatch(update_BC(BC_type)),
 	}
 }
