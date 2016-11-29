@@ -1,9 +1,7 @@
-import { BS } from "./BS.js"
-import { CS } from "./CS.js"
-import { FT } from "./FT.js"
+import { explicit } from "./explicit.js"
+import { implicit } from "./implicit.js"
 
 export const schemes = {
-	BS,
-	CS,
-	FT
+	explicit,
+	implicit
 }
