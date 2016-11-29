@@ -6,6 +6,14 @@ export const CONFIG_UPDATE_L = "CONFIG_UPDATE_L"
 export const CONFIG_UPDATE_EXP = "CONFIG_UPDATE_EXPERIMENT"
 export const CONFIG_UPDATE_SOLV = "CONFIG_UPDATE_SOLVER"
 export const CONFIG_UPDATE_NU = "CONFIG_UPDATE_NU" 
+export const CONFIG_UPDATE_BC_TYPE = "CONFIG_UPDATE_BC_TYPE"
+
+export const update_BC_type = function(BC_type) {
+	return {
+		type: CONFIG_UPDATE_BC_TYPE,
+		BC_type,
+	}
+}
 
 export const update_solv = function(solver) {
 	return {

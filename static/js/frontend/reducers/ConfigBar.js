@@ -7,6 +7,7 @@ import {
 	CONFIG_UPDATE_EXP,
 	CONFIG_UPDATE_SOLV,
 	CONFIG_UPDATE_NU,
+	CONFIG_UPDATE_BC_TYPE,
 } from "./actions/ConfigBar.js"
 
 export const defaultState = {
@@ -18,10 +19,16 @@ export const defaultState = {
 	L: 2,				// (m) length of mesh 
 	experiment: 1,		// (int) experiment (1d linear conv, 2d diff etc)
 	solver: 1,			// (int) solver (explicit, implicit, later dual time etc)
+	BC_type: 1,			// (int) BC type (periodic, etc)
 }
 
 export const configBarReducer = function(state = defaultState, action) {
 	switch(action.type) {
+		case CONFIG_UPDATE_BC_TYPE:
+			return {
+				...state,
+				BC_type: action.BC_type
+			}
 		case CONFIG_UPDATE_SOLV:
 			return {
 				...state,
