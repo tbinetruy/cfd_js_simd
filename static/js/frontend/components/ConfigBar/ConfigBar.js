@@ -121,6 +121,14 @@ class ConfigBar_comp extends React.Component {
 						</select>
 					</label>
 					<label>
+						y0 profile:
+						<select value={ this.props.y0 } onChange={ e => this.handleDropdownChange(e, 'y0') }>
+							<option value={ 1 }>Hat</option>
+							<option value={ 2 }>0</option>
+							<option value={ 3 }>Wave</option>
+						</select>
+					</label>
+					<label>
 						BC:
 						<select value={ this.props.BC } onChange={ e => this.handleDropdownChange(e, 'BC_type') }>
 							<option value={ 1 }>default</option>
@@ -231,6 +239,7 @@ ConfigBar_comp.propTypes = {
 	solver: React.PropTypes.number,
 	BC: React.PropTypes.object,
 	BC_type: React.PropTypes.number, //legacy
+	y0: React.PropTypes.array,
 
 	update_nx: React.PropTypes.func,
 	update_dt: React.PropTypes.func,
@@ -243,6 +252,7 @@ ConfigBar_comp.propTypes = {
 	updateChart1Data: React.PropTypes.func,
 	update_BC: React.PropTypes.func,
 	update_BC_type: React.PropTypes.func,	// legacy
+	update_y0: React.PropTypes.func,
 }
 
 export const ConfigBar = ReactRedux.connect(

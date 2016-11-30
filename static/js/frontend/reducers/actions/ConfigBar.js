@@ -8,6 +8,14 @@ export const CONFIG_UPDATE_SOLV = "CONFIG_UPDATE_SOLVER"
 export const CONFIG_UPDATE_NU = "CONFIG_UPDATE_NU" 
 export const CONFIG_UPDATE_BC_TYPE = "CONFIG_UPDATE_BC_TYPE"
 export const CONFIG_UPDATE_BC = "CONFIG_UPDATE_BC"
+export const CONFIG_UPDATE_Y0 = "CONFIG_UPDATE_Y0"
+
+export const update_y0 = function(y0) {
+	return {
+		type: CONFIG_UPDATE_Y0,
+		y0
+	}
+}
 
 export const update_BC = function(BC) {
 	return {

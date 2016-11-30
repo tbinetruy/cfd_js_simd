@@ -9,10 +9,10 @@ import {
 	update_solv,
 	update_BC_type,
 	update_BC,
+	update_y0
 } from "../../../reducers/actions/ConfigBar.js"
 
-import {
-	updateChart1Data,
+import { updateChart1Data,
 	emptyChart1,
 } from "../../../reducers/actions/Charts.js"
 
@@ -26,8 +26,10 @@ export const mapStateToProps = function(state) {
 		L: state.configBarReducer.L,
 		experiment: state.configBarReducer.experiment,
 		solver: state.configBarReducer.solver,
+		y0: state.configBarReducer.y_0,
 		BC_type: state.configBarReducer.BC_type, 	// legacy
 		BC: state.configBarReducer.BC, 	
+		y0: state.configBarReducer.y0
 	}
 }
 
@@ -45,5 +47,6 @@ export const mapDispatchToProps = function(dispatch) {
 		updateChart1Data: data => dispatch(updateChart1Data(data)),
 		update_BC_type: BC_type => dispatch(update_BC_type(BC_type)),		// legacy
 		update_BC: BC => dispatch(update_BC(BC)),
+		update_y0: y0 => dispatch(update_y0(y0)),
 	}
 }

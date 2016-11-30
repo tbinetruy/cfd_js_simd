@@ -9,6 +9,7 @@ import {
 	CONFIG_UPDATE_NU,
 	CONFIG_UPDATE_BC_TYPE,
 	CONFIG_UPDATE_BC,
+	CONFIG_UPDATE_Y0,
 } from "./actions/ConfigBar.js"
 
 export const defaultState = {
@@ -35,6 +36,11 @@ export const defaultState = {
 
 export const configBarReducer = function(state = defaultState, action) {
 	switch(action.type) {
+		case CONFIG_UPDATE_Y0:
+			return {
+				...state,
+				y0: action.y0
+			}
 		case CONFIG_UPDATE_BC:
 			return {
 				...state,
