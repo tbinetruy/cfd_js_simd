@@ -15,7 +15,8 @@ export const BC = {
 
 		},
 		implicit: {
-			euler: (q, dx, sigma) => {
+			euler: (q, dx) => {
+				const b_n = q*dx
 				return {
 					A_n: -1,				// how to modify entry on diag(A)
 					b_n: q*dx,				// how to modify entry on b
