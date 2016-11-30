@@ -10,7 +10,17 @@ export const CONFIG_UPDATE_BC_TYPE = "CONFIG_UPDATE_BC_TYPE"
 export const CONFIG_UPDATE_BC = "CONFIG_UPDATE_BC"
 
 export const update_BC = function(BC) {
-	return BC
+	return {
+		type: CONFIG_UPDATE_BC,
+		dirichlet: {
+			east: BC.dirichlet.east,
+			west: BC.dirichlet.west,
+		},
+		neumann: {
+			east: BC.neumann.east,
+			west: BC.neumann.west
+		}
+	}
 }
 
 export const update_BC_type = function(BC_type) {

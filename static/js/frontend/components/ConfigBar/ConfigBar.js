@@ -65,6 +65,40 @@ class ConfigBar_comp extends React.Component {
 		}
 	}
 
+	handle_BC_change = (e, type) => {
+		const BC = {
+			dirichlet: {
+				east: this.props.BC.dirichlet.east,
+				west: this.props.BC.dirichlet.west,
+			},
+			neumann: {
+				east: this.props.BC.neumann.east,
+				west: this.props.BC.neumann.west,
+			},
+		}
+
+		const value = parseFloat(e.target.value)
+
+		switch(type) {
+			case 'de':	// dirichlet east
+				BC.dirichlet.east = value 
+				break
+			case 'dw':	// dirichlet west
+				BC.dirichlet.west = value 
+				break
+			case 'ne':	// neumann east
+				BC.neumann.east = value 
+				break
+			case 'nw':	// neumann  east
+				BC.neumann.west = value 
+				break
+			default:
+				break
+		}
+
+		this.props.update_BC(BC)
+	}
+
 	render = () => {
 		return (
 			<div id="ConfigBar--wrapper">
@@ -140,6 +174,41 @@ class ConfigBar_comp extends React.Component {
 							step="0.01"
 							onChange={ e => this.handleChange(e, 'L') } />
 					</label>
+					<div>
+
+						<label>
+							Dirichlet East:
+							<input
+								type="number"
+								value={ this.props.BC.dirichlet.east }
+								step="0.01"
+								onChange={ e => this.handle_BC_change(e, 'de') } />
+						</label>
+						<label>
+							Dirichlet West:
+							<input
+								type="number"
+								value={ this.props.BC.dirichlet.west }
+								step="0.01"
+								onChange={ e => this.handle_BC_change(e, 'dw') } />
+						</label>
+						<label>
+							Neumann East:
+							<input
+								type="number"
+								value={ this.props.BC.neumann.east }
+								step="0.01"
+								onChange={ e => this.handle_BC_change(e, 'ne') } />
+						</label>
+						<label>
+							Neumann West:
+							<input
+								type="number"
+								value={ this.props.BC.neumann.west }
+								step="0.01"
+								onChange={ e => this.handle_BC_change(e, 'nw') } />
+						</label>
+					</div>
 					<input
 						value="compute"
 						type="button"
