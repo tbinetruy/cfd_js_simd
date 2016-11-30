@@ -66,10 +66,9 @@ export const implicit = {
 		}
 
 		const A = generateMatrix(y_0.length)
-		let y_00 = numpy.ones(params.nx).map(e=>0)
-		y_00[0] = BC.dirichlet.west
-		y_00[y_00.length-1] = BC.dirichlet.east
-		let y = [...y_00]
+		y_0[0] = BC.dirichlet.west
+		y_0[y_0.length-1] = BC.dirichlet.east
+		let y = [...y_0]
 		for(let i = 0; i < nt; i++) {
 			let y_temp = [].concat(y)
 			// y_temp = y.map( e => e < 1 ? 1 : e)
@@ -77,8 +76,8 @@ export const implicit = {
 			
 			const y_interior = numeric.solve(A, b)
 			y = [...y_interior]
-			y.unshift(y_00[0])
-			y.push(y_00[y_0.length-1])
+			y.unshift(y_0[0])
+			y.push(y_0[y_0.length-1])
 		}
 		console.log(y)
 		return y
