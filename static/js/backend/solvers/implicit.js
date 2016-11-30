@@ -22,16 +22,10 @@ export const implicit = {
 					(e, r) => {
 						if(r === 0) {
 							A[r][r+1] = scheme(dx, dt, nu, alpha).ud
-
-							if(BC.neumann)
-								if(BC.neumann.west)
-									A[r][r] += getBC.neumann.implicit.euler(BC.neumann.west, dx).A_n
+							A[r][r] += getBC.neumann.implicit.euler(BC.neumann.west, dx).A_n
 						} else if(r === A.length - 1) {
 							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
-
-							if(BC.neumann)
-								if(BC.neumann.east)
-									A[r][r] += getBC.neumann.implicit.euler(BC.neumann.east, dx).A_n
+							A[r][r] += getBC.neumann.implicit.euler(BC.neumann.east, dx).A_n
 						} else if(r !== 0 && r !== A.length - 1) {
 							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
 							A[r][r+1] = scheme(dx, dt, nu, alpha).ud
