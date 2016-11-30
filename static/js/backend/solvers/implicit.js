@@ -19,7 +19,7 @@ export const implicit = {
 							A[r][r+1] = scheme(dx, dt, nu, alpha).ud
 							if(BC.neumann)
 								if(BC.neumann.west)
-									A[r][r] += getBC.neumann.implicit.euler(BC.neumann.west, dx)
+									A[r][r] += getBC.neumann.implicit.euler(BC.neumann.west, dx).A_n
 						} else if(r === A.length - 1) {
 							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
 						} else if(r !== 0 && r !== A.length - 1) {
@@ -28,7 +28,7 @@ export const implicit = {
 
 							if(BC.neumann)
 								if(BC.neumann.east)
-									A[r][r] += getBC.neumann.implicit.euler(BC.neumann.east, dx)
+									A[r][r] += getBC.neumann.implicit.euler(BC.neumann.east, dx).A_n
 						}
 					}
 				)
@@ -39,20 +39,20 @@ export const implicit = {
 		const generateRHS = y => {
 			let RHS = y.map( (e, i) => {
 				if(BC.neumann) {
-					if(DB.neumann.west)
-						e += getBC.neumann.implicit.euler(BC.neumann.west, dx)
+					if(BC.neumann.west && i === 1)
+						e += getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
 					
-					if(BC.neumann.east)
-						e += getBC.neumann.implicit.euler(BC.neumann.east, dx)
+					if(BC.neumann.east && i === y.length - 2)
+						e += getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
 				}
 
-				if(BC.dirichlet) {
-					if(DB.dirichlet.west)
-						e += getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx)
+					if( i === 1)
+						e += getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d
 					
-					if(BC.neumann.east)
-						e += getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx)
-				}
+					if(i === y.length - 2)
+						e += getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d
+
+				return e
 			})
 			RHS.splice(RHS.length-1, 1)
 			RHS.splice(0, 1)
@@ -64,8 +64,8 @@ export const implicit = {
 		}
 
 		const A = generateMatrix(y_0.length)
-		let y_00 = numpy.ones(params.nx)
-		let y = [...y_0]
+		let y_00 = numpy.ones(params.nx).map(e=>0)
+		let y = [...y_00]
 		for(let i = 0; i < nt; i++) {
 			let y_temp = [].concat(y)
 			// y_temp = y.map( e => e < 1 ? 1 : e)

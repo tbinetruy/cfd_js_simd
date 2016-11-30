@@ -18,7 +18,7 @@ export const BC = {
 			euler: (q, dx) => {
 				return {
 					A_n: -1,				// how to modify entry on diag(A)
-					b_n: qdx,				// how to modify entry on b
+					b_n: q*dx,				// how to modify entry on b
 				}
 			}
 		}
