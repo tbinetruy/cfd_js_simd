@@ -17,18 +17,19 @@ export const implicit = {
 					(e, r) => {
 						if(r === 0) {
 							A[r][r+1] = scheme(dx, dt, nu, alpha).ud
+
 							if(BC.neumann)
 								if(BC.neumann.west)
 									A[r][r] += getBC.neumann.implicit.euler(BC.neumann.west, dx).A_n
 						} else if(r === A.length - 1) {
 							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
-						} else if(r !== 0 && r !== A.length - 1) {
-							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
-							A[r][r+1] = scheme(dx, dt, nu, alpha).ud
 
 							if(BC.neumann)
 								if(BC.neumann.east)
 									A[r][r] += getBC.neumann.implicit.euler(BC.neumann.east, dx).A_n
+						} else if(r !== 0 && r !== A.length - 1) {
+							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
+							A[r][r+1] = scheme(dx, dt, nu, alpha).ud
 						}
 					}
 				)
@@ -37,20 +38,20 @@ export const implicit = {
 		}
 
 		const generateRHS = y => {
-			let RHS = y.map( (e, i) => {
-				if(BC.neumann) {
-					if(BC.neumann.west && i === 1)
-						e += getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
-					
-					if(BC.neumann.east && i === y.length - 2)
-						e += getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
-				}
+			let sigma = alpha * dt / Math.pow(dx,2)
 
-					if( i === 1)
-						e += getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d
-					
-					if(i === y.length - 2)
-						e += getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d
+			let RHS = y.map( (e, i) => {
+				if(i === 1)
+					e += sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
+				
+				if(i === y.length - 2)
+					e += sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
+
+				if( i === 1)
+					e += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d
+				
+				if(i === y.length - 2)
+					e += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d
 
 				return e
 			})
@@ -65,6 +66,8 @@ export const implicit = {
 
 		const A = generateMatrix(y_0.length)
 		let y_00 = numpy.ones(params.nx).map(e=>0)
+		y_00[0] = BC.dirichlet.west
+		y_00[y_00.length-1] = BC.dirichlet.east
 		let y = [...y_00]
 		for(let i = 0; i < nt; i++) {
 			let y_temp = [].concat(y)
@@ -73,8 +76,8 @@ export const implicit = {
 			
 			const y_interior = numeric.solve(A, b)
 			y = [...y_interior]
-			y.unshift(y_0[0])
-			y.push(y_0[y_0.length-1])
+			y.unshift(y_00[0])
+			y.push(y_00[y_0.length-1])
 		}
 		console.log(y)
 		return y
