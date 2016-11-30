@@ -1,6 +1,5 @@
 export const compute_param_1D = {
 	linearConv: ({ t, nx, dt, L, c }) => {
-		console.log(t, dt, t/dt)
 		return {
 			nt: t / dt,
 			nx,

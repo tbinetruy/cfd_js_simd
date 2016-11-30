@@ -35,7 +35,6 @@ export const implicit = {
 						}
 					}
 				)
-			console.log(A, scheme)
 			return A
 		}
 
@@ -78,7 +77,6 @@ export const implicit = {
 			y.unshift(y_0[0])
 			y.push(y_0[y_0.length-1])
 		}
-		console.log(y)
 		return y
 	}
 }
