@@ -28,7 +28,7 @@ export const implicit = {
 							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
 
 							if(BC.neumann.east)
-								A[r][r] -= sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).A_n
+								A[r][r] += sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).A_n
 						} else if(r !== 0 && r !== A.length - 1) {
 							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
 							A[r][r+1] = scheme(dx, dt, nu, alpha).ud
