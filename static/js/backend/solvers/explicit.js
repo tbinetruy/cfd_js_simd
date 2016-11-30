@@ -17,6 +17,8 @@ export const explicit = {
 
 			y[0] = BC.dirichlet.west
 			y[y.length-1] = BC.dirichlet.east
+			y[y.length-2] = y[y.length-1] + dx * BC.neumann.east
+			y[1] = y[0] + dx * BC.neumann.west
 		}
 
 		return y
