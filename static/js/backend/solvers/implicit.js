@@ -3,10 +3,14 @@ import { BC as getBC } from "../BC/BC.js"
 
 export const implicit = {
 	_1D: (array, scheme, params, BC) => {
-		const { nt, dt, dx, sigma } = params
+		const { nt, dt, dx } = params
 		const y_0 = [...array]
 		const nu = params.nu
 		const alpha = params.c
+
+		let sigma = alpha * dt / Math.pow(dx,2)
+		if(params.experiment <= 2)
+			sigma = alpha * dt / dx
 
 		const generateMatrix = (N) => {
 
@@ -18,15 +22,13 @@ export const implicit = {
 						if(r === 0) {
 							A[r][r+1] = scheme(dx, dt, nu, alpha).ud
 
-							if(BC.neumann)
-								if(BC.neumann.west)
-									A[r][r] += getBC.neumann.implicit.euler(BC.neumann.west, dx).A_n
+							if(BC.neumann.west)
+								A[r][r] += sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).A_n
 						} else if(r === A.length - 1) {
 							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
 
-							if(BC.neumann)
-								if(BC.neumann.east)
-									A[r][r] += getBC.neumann.implicit.euler(BC.neumann.east, dx).A_n
+							if(BC.neumann.east)
+								A[r][r] -= sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).A_n
 						} else if(r !== 0 && r !== A.length - 1) {
 							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
 							A[r][r+1] = scheme(dx, dt, nu, alpha).ud
@@ -38,9 +40,6 @@ export const implicit = {
 		}
 
 		const generateRHS = y => {
-			let sigma = alpha * dt / Math.pow(dx,2)
-			if(params.experiment <= 2)
-				sigma *= dx
 			let RHS = y.map( (e, i) => {
 				if(i === 1)
 					e += sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
