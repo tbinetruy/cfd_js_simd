@@ -28,6 +28,9 @@ class ConfigBar_comp extends React.Component {
 			case "L":
 				this.props.update_L(parseFloat(str))
 				break
+			case "y0":
+				this.props.update_y0(parseFloat(str))
+				break
 		}
 	}
 
@@ -43,7 +46,7 @@ class ConfigBar_comp extends React.Component {
 			L: this.props.L,
 			BC_type: this.props.BC_type,
 			BC: this.props.BC,
-			y0: this.props.y0,
+			IC: this.props.y0,
 		}
 		const { nx } = config
 		CFD_worker.postMessage(config)
@@ -123,7 +126,7 @@ class ConfigBar_comp extends React.Component {
 					</label>
 					<label>
 						y0 profile:
-						<select value={ this.props.y0 } onChange={ e => this.handleDropdownChange(e, 'y0') }>
+						<select value={ this.props.y0 } onChange={ e => this.handleChange(e, 'y0') }>
 							<option value={ 1 }>Hat</option>
 							<option value={ 2 }>0</option>
 							<option value={ 3 }>Wave</option>
@@ -240,7 +243,7 @@ ConfigBar_comp.propTypes = {
 	solver: React.PropTypes.number,
 	BC: React.PropTypes.object,
 	BC_type: React.PropTypes.number, //legacy
-	y0: React.PropTypes.array,
+	y0: React.PropTypes.number,
 
 	update_nx: React.PropTypes.func,
 	update_dt: React.PropTypes.func,

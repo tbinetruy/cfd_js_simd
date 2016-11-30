@@ -21,6 +21,7 @@ export const defaultState = {
 	L: 2,				// (m) length of mesh 
 	experiment: 1,		// (int) experiment (1d linear conv, 2d diff etc)
 	solver: 1,			// (int) solver (explicit, implicit, later dual time etc)
+	y0: 1,				// (int) initial condition type (hat, zeros, sawtooth etc)
 	BC_type: 1,			// (int) BC type (periodic, etc)
 	BC: {				// (obj) stores boundary condition info at edges
 		dirichlet: {	// (obj) dirichlet constants

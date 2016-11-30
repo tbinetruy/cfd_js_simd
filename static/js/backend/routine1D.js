@@ -1,4 +1,4 @@
-import { getSolver, getEqn, getBC_type } from "./app_config.js"
+import { getSolver, getEqn, getBC_type, getIC } from "./app_config.js"
 import { PDEs } from "./PDEs/PDEs.js"
 import { solvers } from "./solvers/solvers.js"
 import { computeIC_1D } from "./IC/IC.js"
@@ -15,20 +15,21 @@ export const routine1D = userInput => {
 
 	switch(experiment) {
 		case 1:
-			u_0 = computeIC_1D.hat(u, params.dx)
+			//u_0 = computeIC_1D[getIC[params.IC]](u, params.dx)
 			break
 		case 2:
-			u_0 = computeIC_1D.hat(u, params.dx)
+			//u_0 = computeIC_1D.hat(u, params.dx)
 			break
 		case 3:
-			u_0 = computeIC_1D.hat(u, params.dx)
+			//u_0 = computeIC_1D.hat(u, params.dx)
 			break
 		case 4:
-			u_0 = computeIC_1D.burgers(u, params)
+			//u_0 = computeIC_1D.burgers(u, params)
 			u_analytical = solutions.burgers._1D(params.nx, params.nt * params.dt, params.nu)
 			break
 	}
 
+	u_0 = computeIC_1D[getIC[params.IC]](u, params.dx)
 	u = solvers[getSolver[solver]]._1D(u_0, PDEs[getEqn[experiment]][getSolver[solver]]._1D, params, BC)
 
 	return { u_0, u, u_analytical, dx: params.dx }

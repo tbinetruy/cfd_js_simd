@@ -11,6 +11,7 @@ export const computeIC_1D = {
 				return 0
 		})
 	},
+	zeros: y => y.map( () => 0 ),
 	burgers: (y, params) => {
 		// paramters
 		const {
