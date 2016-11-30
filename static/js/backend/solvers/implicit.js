@@ -39,7 +39,8 @@ export const implicit = {
 
 		const generateRHS = y => {
 			let sigma = alpha * dt / Math.pow(dx,2)
-
+			if(params.experiment <= 2)
+				sigma *= dx
 			let RHS = y.map( (e, i) => {
 				if(i === 1)
 					e += sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n

@@ -6,7 +6,8 @@ export const compute_param_1D = {
 			nx,
 			dt,
 			dx: L / (nx - 1),
-			c
+			c,
+			experiment: 1
 		}
 	},
 	nonLinearConv: ({ t, nx, dt, L, c }) => {
@@ -15,7 +16,8 @@ export const compute_param_1D = {
 			nx,
 			dt,
 			dx: L / (nx - 1),
-			c
+			c,
+			experiment: 2
 		}
 	},
 	diffusion: ({ t, nx, L, nu = 0.3, sigma = 0.2}) => {
@@ -30,6 +32,7 @@ export const compute_param_1D = {
 			nu,
 			dt,
 			c: nu,
+			experiment: 3,
 		}
 	},
 	burgers: ({ t, nx, L, nu = 0.07 }) => {
@@ -44,6 +47,7 @@ export const compute_param_1D = {
 			dt,
 			nu,
 			c: nu,
+			experiment: 4
 		}
 	}
 }
