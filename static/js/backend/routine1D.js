@@ -29,7 +29,7 @@ export const routine1D = userInput => {
 			break
 	}
 
-	u_0 = computeIC_1D[getIC[params.IC]](u, params.dx)
+	u_0 = computeIC_1D[getIC[params.IC]](u, params)
 	u = solvers[getSolver[solver]]._1D(u_0, PDEs[getEqn[experiment]][getSolver[solver]]._1D, params, BC)
 
 	return { u_0, u, u_analytical, dx: params.dx }
