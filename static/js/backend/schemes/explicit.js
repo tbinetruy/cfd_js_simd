@@ -9,8 +9,12 @@ export const explicit = {
 						return y_i - y[y.length - 2]
 					else
 						return y[y.length - 1] + y[y.length - 2]
-				} else 
-					return 0
+				} else  {
+					if(i === 0)
+						return y[1]
+					if(i === y.length - 1)
+						return y[y.length - 2]
+				}
 			},
 		},
 		centeredSpace: {
@@ -22,8 +26,12 @@ export const explicit = {
 						return y[1] - 2 * y[0] + y[y.length - 2]
 					else
 						return y[0] - 2 * y[y.length - 1] + y[y.length - 2]
-				} else
-					return 0
+				} else {
+					if(i === 0)
+						return y[i + 1] - y[0]
+					if(i === y.length - 1)
+						return y[i - 1] - y[i]
+				}
 			}
 		},
 		forwardTime: {

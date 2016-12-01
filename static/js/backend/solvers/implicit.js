@@ -6,7 +6,7 @@ export const implicit = {
 		const { nt, dt, dx } = params
 		const y_0 = [...array]
 		const nu = params.nu
-		const alpha = params.c
+		const alpha = params.c;
 
 		let sigma = alpha * dt / Math.pow(dx,2)
 		if(params.experiment <= 2)
@@ -40,17 +40,17 @@ export const implicit = {
 
 		const generateRHS = y => {
 			let RHS = y.map( (e, i) => {
-				if(i === 1)
-					e += sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
-				
-				if(i === y.length - 2)
-					e += sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
+				// if(i === 1)
+				// 	e += sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
+				// 
+				// if(i === y.length - 2)
+				// 	e += sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
 
-				if( i === 1)
-					e += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d
-				
-				if(i === y.length - 2)
-					e += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d
+				// if( i === 1)
+				// 	e += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d
+				// 
+				// if(i === y.length - 2)
+				// 	e += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d
 
 				return e
 			})
@@ -75,7 +75,15 @@ export const implicit = {
 			const y_interior = numeric.solve(A, b)
 			y = [...y_interior]
 			y.unshift(y_0[0])
-			y.push(y_0[y_0.length-1])
+			y.push(y_0[y.length-1])
+
+			// dirichlet bc
+			y[0] += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d
+			//y[y.length - 1] += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d
+			// neumann BC
+			// y[0] = y[1] + sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
+			y[y.length - 1] = y[y.length-2] //+ sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
+
 		}
 		return y
 	}
