@@ -40,17 +40,17 @@ export const implicit = {
 
 		const generateRHS = y => {
 			let RHS = y.map( (e, i) => {
-				// if(i === 1)
-				// 	e += sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
-				// 
-				// if(i === y.length - 2)
-				// 	e += sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
+				if(i === 1)
+					e += sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
+				
+				if(i === y.length - 2)
+					e += sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
 
-				// if( i === 1)
-				// 	e += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d
-				// 
-				// if(i === y.length - 2)
-				// 	e += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d
+				if( i === 1)
+					e += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d
+				
+				if(i === y.length - 2)
+					e += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d
 
 				return e
 			})
@@ -64,8 +64,12 @@ export const implicit = {
 		}
 
 		const A = generateMatrix(y_0.length)
-		y_0[0] = BC.dirichlet.west
-		y_0[y_0.length-1] = BC.dirichlet.east
+
+		if(BC.dirichlet.west)
+			y_0[0] = BC.dirichlet.west
+		if(BC.dirichlet.east)
+			y_0[y_0.length-1] = BC.dirichlet.east
+			
 		let y = [...y_0]
 		for(let i = 0; i < nt; i++) {
 			let y_temp = [].concat(y)
@@ -78,13 +82,17 @@ export const implicit = {
 			y.push(y_0[y.length-1])
 
 			// dirichlet bc
-			y[0] += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d
-			//y[y.length - 1] += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d
+			if(BC.dirichlet.west)
+				y[0] += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d
+			if(BC.dirichlet.east)
+				y[y.length - 1] += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d
 			// neumann BC
-			// y[0] = y[1] + sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
-			y[y.length - 1] = y[y.length-2] //+ sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
-
+			if(BC.neumann.west)
+				y[0] = y[1] + sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
+			if(BC.neumann.east)
+				y[y.length - 1] = y[y.length-2] + sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
 		}
+
 		return y
 	}
 }
