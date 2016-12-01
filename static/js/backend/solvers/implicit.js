@@ -70,17 +70,20 @@ export const implicit = {
 			y = [...y_interior]
 			y.unshift(y_temp[0])
 			y.push(y_temp[y.length-1])
+			
+			y[0] = y[1]
+			y[y.length - 1] = y[y.length - 2]
 
 			// neumann BC
 			if(BC.neumann.west)
-				y[0] = y[1] + sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
+				y[0] += getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
 			if(BC.neumann.east)
-				y[y.length - 1] = y[y.length-2] + sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
+				y[y.length - 1] += getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
 			// dirichlet bc: override Neumann
 			if(BC.dirichlet.west)
-				y[0] = sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d 
+				y[0] = getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d 
 			if(BC.dirichlet.east)
-				y[y.length - 1] = sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d 
+				y[y.length - 1] = getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d 
 		}
 
 		return y
