@@ -27,38 +27,29 @@ export const implicit = {
 						} else if(r === A.length - 1) {
 							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
 
-							if(BC.neumann.east)
-								A[r][r] += sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).A_n
+							//if(BC.neumann.east)
+								//A[r][r] += sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).A_n
+							A[r][r] -= sigma
 						} else if(r !== 0 && r !== A.length - 1) {
 							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
 							A[r][r+1] = scheme(dx, dt, nu, alpha).ud
 						}
 					}
 				)
+
 			return A
 		}
 
 		const generateRHS = y => {
-			let RHS = y.map( (e, i) => {
-				if(i === 1)
-					e += sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
-				
-				if(i === y.length - 2)
-					e += sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
+			let RHS = y.map( (e, i) => e )
 
-				if( i === 1)
-					e += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d
-				
-				if(i === y.length - 2)
-					e += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d
-
-				return e
-			})
 			RHS.splice(RHS.length-1, 1)
 			RHS.splice(0, 1)
 
-			//RHS[0] += y[0]
-			//RHS[RHS.length - 1] += y[y.length - 1]
+			RHS[0] += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d
+			RHS[0] += sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
+			RHS[RHS.length-1] += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d
+			RHS[RHS.length-1] += sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
 
 			return RHS
 		}
@@ -66,9 +57,9 @@ export const implicit = {
 		const A = generateMatrix(y_0.length)
 
 		if(BC.dirichlet.west)
-			y_0[0] = BC.dirichlet.west
+			y_0[0] = sigma*BC.dirichlet.west
 		if(BC.dirichlet.east)
-			y_0[y_0.length-1] = BC.dirichlet.east
+			y_0[y_0.length-1] = sigma*BC.dirichlet.east
 			
 		let y = [...y_0]
 		for(let i = 0; i < nt; i++) {
@@ -78,19 +69,19 @@ export const implicit = {
 			
 			const y_interior = numeric.solve(A, b)
 			y = [...y_interior]
-			y.unshift(y_0[0])
-			y.push(y_0[y.length-1])
+			y.unshift(y_temp[0])
+			y.push(y_temp[y.length-1])
 
 			// dirichlet bc
-			if(BC.dirichlet.west)
-				y[0] += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d
-			if(BC.dirichlet.east)
-				y[y.length - 1] += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d
+			//if(BC.dirichlet.west)
+				y[0] = sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d 
+			//if(BC.dirichlet.east)
+				y[y.length - 1] = sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d 
 			// neumann BC
-			if(BC.neumann.west)
-				y[0] = y[1] + sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
-			if(BC.neumann.east)
-				y[y.length - 1] = y[y.length-2] + sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
+			//if(BC.neumann.west)
+				//y[0] = y[1] + sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
+			//if(BC.neumann.east)
+				//y[y.length - 1] = y[y.length-2] + sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
 		}
 
 		return y
