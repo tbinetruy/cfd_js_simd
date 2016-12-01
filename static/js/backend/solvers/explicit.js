@@ -15,14 +15,16 @@ export const explicit = {
 				return scheme(y_temp, y_i, i, dt, dx, c, BC)
 			})
 
-			if(BC.dirichlet.west)
-				y[0] = BC.dirichlet.west
-			if(BC.dirichlet.east)
-				y[y.length-1] = BC.dirichlet.east
+			// neumann BC
 			if(BC.neumann.east)
 				y[y.length-1] = y[y.length-2] + dx * BC.neumann.east
 			if(BC.neumann.west)
 				y[0] = y[1] + dx * BC.neumann.west
+			// dirichlet BC (overrides neumann)
+			if(BC.dirichlet.west)
+				y[0] = BC.dirichlet.west
+			if(BC.dirichlet.east)
+				y[y.length-1] = BC.dirichlet.east
 		}
 
 		return y

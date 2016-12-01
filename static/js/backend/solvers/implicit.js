@@ -40,11 +40,14 @@ export const implicit = {
 		}
 
 		const generateRHS = y => {
+			// copy array
 			let RHS = y.map( (e, i) => e )
 
+			// only consider y_interior
 			RHS.splice(RHS.length-1, 1)
 			RHS.splice(0, 1)
 
+			// BC
 			RHS[0] += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d
 			RHS[0] += sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
 			RHS[RHS.length-1] += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d
@@ -55,36 +58,39 @@ export const implicit = {
 
 		const A = generateMatrix(y_0.length)
 
+		//  apply dirichlet BC
 		if(BC.dirichlet.west)
-			y_0[0] = sigma*BC.dirichlet.west
+			y_0[0] = getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d 
 		if(BC.dirichlet.east)
-			y_0[y_0.length-1] = sigma*BC.dirichlet.east
+			y_0[y_0.length - 1] = getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d 
 			
 		let y = [...y_0]
 		for(let i = 0; i < nt; i++) {
-			let y_temp = [].concat(y)
-			// y_temp = y.map( e => e < 1 ? 1 : e)
-			const b = generateRHS(y_temp)
-			
-			const y_interior = numeric.solve(A, b)
-			y = [...y_interior]
-			y.unshift(y_temp[0])
-			y.push(y_temp[y.length-1])
-			
-			y[0] = y[1]
-			y[y.length - 1] = y[y.length - 2]
+			let y_temp = [].concat(y) // copy y
 
-			// neumann BC
-			if(BC.neumann.west)
-				y[0] += getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
-			if(BC.neumann.east)
-				y[y.length - 1] += getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
-			// dirichlet bc: override Neumann
-			if(BC.dirichlet.west)
-				y[0] = getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d 
-			if(BC.dirichlet.east)
-				y[y.length - 1] = getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d 
+			const b = generateRHS(y) // get vector b
+			const y_interior = numeric.solve(A, b) // solve system
+
+			// upate y size
+			y = [...y_interior]
+			y.unshift(0)
+			y.push(y_temp[0])
 		}
+
+		
+		// BC: solving manually for y_outside (since system only solves y_interior)
+		
+		// neumann
+		y[0] = y[1]
+		y[y.length - 1] = y[y.length - 2]
+		y[0] += getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
+		y[y.length - 1] += getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
+
+		// dirichlet
+		if(BC.dirichlet.west)
+			y[0] = y_0[0] 
+		if(BC.dirichlet.east)
+			y[y.length - 1] = y_0[y.length-1]
 
 		return y
 	}
