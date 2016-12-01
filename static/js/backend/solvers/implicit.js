@@ -22,14 +22,13 @@ export const implicit = {
 						if(r === 0) {
 							A[r][r+1] = scheme(dx, dt, nu, alpha).ud
 
-							if(BC.neumann.west)
+							if(!BC.dirichlet.west)
 								A[r][r] += sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).A_n
 						} else if(r === A.length - 1) {
 							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
 
-							//if(BC.neumann.east)
-								//A[r][r] += sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).A_n
-							A[r][r] -= sigma
+							if(!BC.dirichlet.east)
+								A[r][r] += sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).A_n
 						} else if(r !== 0 && r !== A.length - 1) {
 							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
 							A[r][r+1] = scheme(dx, dt, nu, alpha).ud
@@ -72,16 +71,16 @@ export const implicit = {
 			y.unshift(y_temp[0])
 			y.push(y_temp[y.length-1])
 
-			// dirichlet bc
-			//if(BC.dirichlet.west)
-				y[0] = sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d 
-			//if(BC.dirichlet.east)
-				y[y.length - 1] = sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d 
 			// neumann BC
-			//if(BC.neumann.west)
-				//y[0] = y[1] + sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
-			//if(BC.neumann.east)
-				//y[y.length - 1] = y[y.length-2] + sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
+			if(BC.neumann.west)
+				y[0] = y[1] + sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
+			if(BC.neumann.east)
+				y[y.length - 1] = y[y.length-2] + sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
+			// dirichlet bc: override Neumann
+			if(BC.dirichlet.west)
+				y[0] = sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d 
+			if(BC.dirichlet.east)
+				y[y.length - 1] = sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d 
 		}
 
 		return y
