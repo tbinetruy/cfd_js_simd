@@ -24,10 +24,8 @@ export const explicit = {
 			// BC
 
 			// neumann BC
-			if(BC.neumann.east)
-				y[y.length-1] = y[y.length-2] + getBC.neumann.explicit.euler(BC.neumann.east)
-			if(BC.neumann.west)
-				y[0] = y[1] + getBC.neumann.explicit.euler(BC.neumann.west)
+			y[y.length-1] = y[y.length-2] + getBC.neumann.explicit.euler(BC.neumann.east, dx)
+			y[0] = y[1] + getBC.neumann.explicit.euler(BC.neumann.west, dx)
 
 			// dirichlet BC (overrides neumann)
 			if(BC.dirichlet.west)
