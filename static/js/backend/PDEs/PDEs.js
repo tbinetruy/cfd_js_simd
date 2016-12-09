@@ -1,19 +1,20 @@
 import { convection } from "./convection.js"
 import { diffusion } from "./diffusion.js"
 import { burgers } from "./burgers.js"
+import { schemes } from "../schemes/schemes.js"
 
-// export createPDE = (config, params) => {
-// 	arg = [
-// 		{
-// 			implicit,
-// 			euler,
-// 			backwardTime,
-// 			dim,
-// 		},
-// 	]
-// 
-// 
-// }
+export const createPDE = (config, PDEterms) => {
+	paramsFormat = [
+		{
+			implicit: 0,
+			euler: 0,
+			backwardTime: 0,
+			dim: 0,
+		},
+	]
+
+	schemes.implicit.euler.backwardTime._1D
+}
 
 export const PDEs = {
 	convection,
