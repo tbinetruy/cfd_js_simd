@@ -7,10 +7,9 @@ export const diffusion = {
 	implicit : {
 		_1D: (dx, dt, nu, c) => {
 			return {
-				ud: schemes.implicit.backwardTimeEuler._1D(Math.pow(dx, 2), dt, nu).ud - schemes.implicit.centeredSpaceEuler._1D(Math.pow(dx, 2), dt, nu).ud,
-				d: schemes.implicit.backwardTimeEuler._1D(Math.pow(dx, 2), dt, nu).d - schemes.implicit.centeredSpaceEuler._1D(Math.pow(dx, 2), dt, nu).d,
-				ld: schemes.implicit.backwardTimeEuler._1D(Math.pow(dx, 2), dt, nu).ld - schemes.implicit.centeredSpaceEuler._1D(Math.pow(dx, 2), dt, nu).ld,
-				d_last: schemes.implicit.backwardTimeEuler._1D(Math.pow(dx, 2), dt, nu).d - schemes.implicit.centeredSpaceEuler._1D(Math.pow(dx, 2), dt, nu).d_last
+				ud: schemes.implicit.backwardTimeEuler._1D(dx, dt, nu).ud - schemes.implicit.centeredSpaceEuler._1D(dx, dt, nu).ud,
+				d: schemes.implicit.backwardTimeEuler._1D(dx, dt, nu).d - schemes.implicit.centeredSpaceEuler._1D(dx, dt, nu).d,
+				ld: schemes.implicit.backwardTimeEuler._1D(dx, dt, nu).ld - schemes.implicit.centeredSpaceEuler._1D(dx, dt, nu).ld,
 			}
 		}
 	}
