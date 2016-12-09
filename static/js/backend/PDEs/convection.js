@@ -2,7 +2,18 @@ import { schemes } from "../schemes/schemes.js"
 
 export const convection = {
 	explicit: {
-		_1D: (u, u_i, i, dt, dx, c) => schemes.explicit.forwardTimeEuler._1D(u, u_i, i) - c * dt / dx * schemes.explicit.backwardSpaceEuler._1D(u, u_i, i)
+		_1D: (u, u_i, i, dt, dx, c) => {
+			const params = {
+				y: u,
+				y_i: u_i,
+				i,
+				c,
+				dx, 
+				dt
+			}
+
+			return schemes.explicit.forwardTimeEuler._1D(params) - schemes.explicit.backwardSpaceEuler._1D(params)
+		}
 	},
 	implicit : {
 		_1D: (dx, dt, nu, c) => {

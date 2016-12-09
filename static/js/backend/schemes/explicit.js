@@ -1,7 +1,9 @@
 export const explicit = {
 	backwardSpaceEuler: {
-		_1D: (y, y_i, i, BC_type) => {
+		_1D: ({ y, y_i, i, c, dx, dt }) => {
 			let diff = 0
+			const BC_type = '' // dummy var for now
+			const sigma = c * dt / dx
 			if(i > 0 && i < y.length)
 				diff = y_i - y[i-1]
 			else if(BC_type === 'periodic') {
@@ -16,12 +18,14 @@ export const explicit = {
 					diff = y[y.length - 2]
 			}
 
-			return diff
+			return sigma * diff
 		},
 	},
 	centeredSpaceEuler: {
-		_1D: (y, y_i, i, BC_type) => {
+		_1D: ({ y, y_i, i, c, dx, dt }) => {
 			let diff = 0
+			const BC_type = '' // dummy var for now
+			const sigma = c * dt / Math.pow(dx, 2)
 			if(i > 0 && i < y.length - 1)
 				diff = y[i+1] - 2 * y_i + y[i-1]
 			else if(BC_type === 'periodic') {
@@ -35,12 +39,13 @@ export const explicit = {
 				if(i === y.length - 1)
 					diff = y[i - 1] - y[i]
 			}
-			return diff
+			return sigma * diff
 		}
 	},
 	forwardTimeEuler: {
-		_1D: (y, y_i, i, BC_type) => {
+		_1D: ({ y, y_i, i }) => {
 			let diff = 0
+			const BC_type = '' // dummy var for now
 			if(i >= 0 && i < y.length - 1)
 				diff = y_i
 			else if(BC_type === 'periodic') {
