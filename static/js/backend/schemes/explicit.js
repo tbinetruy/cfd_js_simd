@@ -1,6 +1,6 @@
 export const explicit = {
 	backwardSpaceEuler: {
-		_1D: (y, y_i, i, BC_type = null) => {
+		_1D: (y, y_i, i, BC_type) => {
 			let diff = 0
 			if(i > 0 && i < y.length)
 				diff = y_i - y[i-1]
@@ -39,7 +39,7 @@ export const explicit = {
 		}
 	},
 	forwardTimeEuler: {
-		_1D: (y, y_i, i, BC_type = null) => {
+		_1D: (y, y_i, i, BC_type) => {
 			let diff = 0
 			if(i >= 0 && i < y.length - 1)
 				diff = y_i
