@@ -1,9 +1,15 @@
 import { BC as getBC } from "../BC/BC.js"
+import { PDEs } from "../PDEs/PDEs.js"
+import { getSolver, getEqn, getBC_type, getIC } from "../app_config.js"
 
 export const explicit = {
-	_1D: (array, scheme, params, BC) => {
-		const { nt, dt, dx, c, experiment } = params
-		let y = [...array]
+	// y_0: solution array at t = 0
+	// solverConfig: config relative to solver
+	// PDEterms: PDE discretization description
+	// BC: BC type
+	_1D: (y_0, solverConfig, PDEterms, BC) => {
+		const { nt, dt, dx, c, experiment } = solverConfig
+		let y = [...y_0]
 		let y_temp = numpy.ones(y.length)
 
 		// CFL different for advection and diffusion
@@ -17,7 +23,8 @@ export const explicit = {
 
 			// iterate over space
 			y = y_temp.map((y_i, i) => {
-				return scheme(y_temp, y_i, i, dt, dx, c, BC)
+				return PDEs.discretizePDE(solverConfig, PDEterms, { y: y_temp, y_i, i, c, dx, dt })
+				//return scheme(y_temp, y_i, i, dt, dx, c, BC)
 			})
 
 

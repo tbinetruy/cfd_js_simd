@@ -3,26 +3,27 @@ import { diffusion } from "./diffusion.js"
 import { burgers } from "./burgers.js"
 import { schemes } from "../schemes/schemes.js"
 
-export const createPDE = (config, PDEterms, solverType) => {
+export const discretizePDE = (config, PDEterms, params) => {
 //	paramsFormat = [
 //		{
 //			implicit: 0,
 //			euler: 0,
 //			backwardTime: 0,
 //			dim: 0,
+//			
 //		},
 //	]
-//
-//	schemes.implicit.euler.backwardTime._1D
-//	if(solverType === 'explicit'){
-//		schemes.implicit.[PDEterms[0].scheme].[PDEterms.dim]
-//	}
-//
-//
+	let u_iplus1 = 0
+
+	for(let i = 0; i < PDEterms.length; i++)
+		u_iplus1 += schemes[config.solver][PDEterms[i].scheme][config.dim]({ ...params, c: PDEterms[i].c })
+
+	return u_iplus1
 }
 
 export const PDEs = {
 	convection,
 	diffusion,
-	burgers
+	burgers,
+	discretizePDE,
 }
