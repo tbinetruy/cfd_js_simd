@@ -43,7 +43,7 @@ export const routine1D = userInput => {
 		},
 		{
 			scheme: 'backwardSpaceEuler',
-			c: 1
+			c: -1
 		}
 	]
 
