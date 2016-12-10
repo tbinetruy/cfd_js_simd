@@ -9,6 +9,14 @@ export const CONFIG_UPDATE_NU = "CONFIG_UPDATE_NU"
 export const CONFIG_UPDATE_BC_TYPE = "CONFIG_UPDATE_BC_TYPE"
 export const CONFIG_UPDATE_BC = "CONFIG_UPDATE_BC"
 export const CONFIG_UPDATE_Y0 = "CONFIG_UPDATE_Y0"
+export const CONFIG_UPDATE_DISCRETIZATION = "CONFIG_UPDATE_DISCRETIZATION"
+
+export const update_discretizationType = function(discretizationType) {
+	return {
+		type: CONFIG_UPDATE_DISCRETIZATION,
+		discretizationType
+	}
+}
 
 export const update_y0 = function(y0) {
 	return {

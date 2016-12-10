@@ -10,6 +10,7 @@ import {
 	CONFIG_UPDATE_BC_TYPE,
 	CONFIG_UPDATE_BC,
 	CONFIG_UPDATE_Y0,
+	CONFIG_UPDATE_DISCRETIZATION,
 } from "./actions/ConfigBar.js"
 
 export const defaultState = {
@@ -23,6 +24,7 @@ export const defaultState = {
 	solver: 2,			// (int) solver (explicit, implicit, later dual time etc)
 	y0: 1,				// (int) initial condition type (hat, zeros, sawtooth etc)
 	BC_type: 1,			// (int) BC type (periodic, etc)
+	discretizationType: 1, // (int) 1 = FDM, 2 = FVM
 	BC: {				// (obj) stores boundary condition info at edges
 		dirichlet: {	// (obj) dirichlet constants
 			east: 0,	// (number) constant to apply at right edge
@@ -37,6 +39,11 @@ export const defaultState = {
 
 export const configBarReducer = function(state = defaultState, action) {
 	switch(action.type) {
+		case CONFIG_UPDATE_DISCRETIZATION:
+			return {
+				...state,
+				discretizationType: action.discretizationType
+			}
 		case CONFIG_UPDATE_Y0:
 			return {
 				...state,

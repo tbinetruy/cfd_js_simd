@@ -67,6 +67,9 @@ class ConfigBar_comp extends React.Component {
 			case 'BC_type':
 				this.props.update_BC_type(parseInt(e.target.value))
 				break
+			case 'discretization':
+				this.props.update_discretizationType(parseInt(e.target.value))
+				break
 		}
 	}
 
@@ -122,6 +125,13 @@ class ConfigBar_comp extends React.Component {
 						<select value={ this.props.solver } onChange={ e => this.handleDropdownChange(e, 'solv') }>
 							<option value={ 1 }>explicit</option>
 							<option value={ 2 }>implicit</option>
+						</select>
+					</label>
+					<label>
+						discretization:
+						<select value={ this.props.discretizationType } onChange={ e => this.handleDropdownChange(e, 'discretization') }>
+							<option value={ 1 }>DFM</option>
+							<option value={ 2 }>FVM</option>
 						</select>
 					</label>
 					<label>
@@ -244,6 +254,7 @@ ConfigBar_comp.propTypes = {
 	BC: React.PropTypes.object,
 	BC_type: React.PropTypes.number, //legacy
 	y0: React.PropTypes.number,
+	discretizationType: React.PropTypes.number,
 
 	update_nx: React.PropTypes.func,
 	update_dt: React.PropTypes.func,
@@ -257,6 +268,7 @@ ConfigBar_comp.propTypes = {
 	update_BC: React.PropTypes.func,
 	update_BC_type: React.PropTypes.func,	// legacy
 	update_y0: React.PropTypes.func,
+	update_discretizationType: React.PropTypes.func,
 }
 
 export const ConfigBar = ReactRedux.connect(

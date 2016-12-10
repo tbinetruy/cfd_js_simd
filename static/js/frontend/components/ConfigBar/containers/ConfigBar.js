@@ -9,7 +9,8 @@ import {
 	update_solv,
 	update_BC_type,
 	update_BC,
-	update_y0
+	update_y0,
+	update_discretizationType,
 } from "../../../reducers/actions/ConfigBar.js"
 
 import { updateChart1Data,
@@ -29,12 +30,14 @@ export const mapStateToProps = function(state) {
 		y0: state.configBarReducer.y_0,
 		BC_type: state.configBarReducer.BC_type, 	// legacy
 		BC: state.configBarReducer.BC, 	
-		y0: state.configBarReducer.y0
+		y0: state.configBarReducer.y0,
+		discretizationType: state.configBarReducer.discretizationType,
 	}
 }
 
 export const mapDispatchToProps = function(dispatch) {
 	return {
+		update_discretizationType: discretizationType => dispatch(update_discretizationType(discretizationType)),
 		update_nx: nx => dispatch(update_nx(nx)),
 		update_dt: dt => dispatch(update_dt(dt)),
 		update_t: t => dispatch(update_t(t)),
