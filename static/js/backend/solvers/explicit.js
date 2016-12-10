@@ -23,7 +23,7 @@ export const explicit = {
 
 			// iterate over space
 			y = y_temp.map((y_i, i) => {
-				return PDEs.discretizePDE(solverConfig, PDEterms, { y: y_temp, y_i, i, c, dx, dt })
+				return PDEs.discretizePDE.explicit._1D(solverConfig, PDEterms, { y: y_temp, y_i, i, c, dx, dt })
 				//return scheme(y_temp, y_i, i, dt, dx, c, BC)
 			})
 
