@@ -21,6 +21,11 @@ export const getEqn = {
 	4: 'burgers',
 }
 
+export const getDiscretization = {
+	1: 'FDM',
+	2: 'FVM',
+}
+
 export const getScheme = {
 	1: 'backwardSpaceEuler',
 	2: 'centeredSpaceEuler',

@@ -1,9 +1,10 @@
 import { getSolver, getEqn, getBC_type, getIC } from "../app_config.js"
 
 export const compute_param_1D = {
-	createPDE: ({ t, nx, dt, L, c, nu, IC, BC, solver }) => {
+	createPDE: ({ discretization, t, nx, dt, L, c, nu, IC, BC, solver }) => {
 		return {
 			nt: t / dt,
+			discretization,
 			nx,
 			dt,
 			dx: L / (nx - 1),
