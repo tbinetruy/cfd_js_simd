@@ -31,14 +31,14 @@ export const explicit = {
 			// BC
 
 			// neumann BC
-			y[y.length-1] = y[y.length-2] + getBC.neumann.explicit.euler(BC.neumann.east, dx)
-			y[0] = y[1] + getBC.neumann.explicit.euler(BC.neumann.west, dx)
+			y[y.length-1] = y[y.length-2] + getBC.neumann.explicit[solverConfig.discretization].euler(BC.neumann.east, dx)
+			y[0] = y[1] + getBC.neumann.explicit[solverConfig.discretization].euler(BC.neumann.west, dx)
 
 			// dirichlet BC (overrides neumann)
 			if(BC.dirichlet.west)
-				y[0] = getBC.dirichlet.explicit.euler(BC.dirichlet.west)
+				y[0] = getBC.dirichlet.explicit[solverConfig.discretization].euler(BC.dirichlet.west)
 			if(BC.dirichlet.east)
-				y[y.length-1] = getBC.dirichlet.explicit.euler(BC.dirichlet.east)
+				y[y.length-1] = getBC.dirichlet.explicit[solverConfig.discretization].euler(BC.dirichlet.east)
 		}
 
 		return y

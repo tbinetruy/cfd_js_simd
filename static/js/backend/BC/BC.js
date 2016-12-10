@@ -1,7 +1,12 @@
 export const BC = {
 	dirichlet: {
 		explicit: {
-			euler: c => c
+			FDM: {
+				euler: c => c
+			},
+			FVM: {
+
+			},
 		},
 		implicit: {
 			euler: c => {
@@ -13,7 +18,12 @@ export const BC = {
 	},
 	neumann: {
 		explicit: {
-			euler: (q, dx) => q*dx
+			FDM: {
+				euler: (q, dx) => q*dx
+			},
+			FVM: {
+
+			}
 		},
 		implicit: {
 			euler: (q, dx) => {
