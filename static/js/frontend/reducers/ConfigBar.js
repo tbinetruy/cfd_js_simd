@@ -18,7 +18,7 @@ export const defaultState = {
 	t: 163,				// (s) want solution at time t
 	c: 1,				// convection constant
 	nu: 0.7,			// diffusion constant
-	L: 1,				// (m) length of mesh 
+	L: 2,				// (m) length of mesh 
 	experiment: 1,		// (int) experiment (1d linear conv, 2d diff etc)
 	solver: 2,			// (int) solver (explicit, implicit, later dual time etc)
 	y0: 1,				// (int) initial condition type (hat, zeros, sawtooth etc)

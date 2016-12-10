@@ -24,8 +24,8 @@ export const implicit = {
 		_1D: ({ dx, dt, c }) => {
 			const sigma = c * dt / dx;
 			return {
-				ld: -sigma,
-				d: (sigma),
+				ld: sigma,
+				d: -(sigma),
 				ud: 0,
 			}
 		}
