@@ -49,8 +49,8 @@ export const implicit = {
 				)
 			}
 
-			A[0][0] += sigma_west * getBC.neumann.implicit.euler(BC.neumann.west, dx).A_n
-			A[A.length-1][A.length-1] += sigma_east * getBC.neumann.implicit.euler(BC.neumann.east, dx).A_n
+			A[0][0] += sigma_west * getBC.neumann.implicit[solverConfig.discretization].euler(BC.neumann.west, dx).A_n
+			A[A.length-1][A.length-1] += sigma_east * getBC.neumann.implicit[solverConfig.discretization].euler(BC.neumann.east, dx).A_n
 
 
 			return A
@@ -77,10 +77,10 @@ export const implicit = {
 				sigma_BC_east += sigma
 			}
 				
-			RHS[0] += sigma_BC_west * getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d
-			RHS[0] += sigma_BC_west * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
-			RHS[RHS.length-1] += sigma_BC_east * getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d
-			RHS[RHS.length-1] += sigma_BC_east * getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
+			RHS[0] += sigma_BC_west * getBC.dirichlet.implicit[solverConfig.discretization].euler(BC.dirichlet.west, dx).b_d
+			RHS[0] += sigma_BC_west * getBC.neumann.implicit[solverConfig.discretization].euler(BC.neumann.west, dx).b_n
+			RHS[RHS.length-1] += sigma_BC_east * getBC.dirichlet.implicit[solverConfig.discretization].euler(BC.dirichlet.east, dx).b_d
+			RHS[RHS.length-1] += sigma_BC_east * getBC.neumann.implicit[solverConfig.discretization].euler(BC.neumann.east, dx).b_n
 
 			return RHS
 		}
@@ -89,9 +89,9 @@ export const implicit = {
 
 		//  apply dirichlet BC
 		if(BC.dirichlet.west)
-			y_0[0] = getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d 
+			y_0[0] = getBC.dirichlet.implicit[solverConfig.discretization].euler(BC.dirichlet.west, dx).b_d 
 		if(BC.dirichlet.east)
-			y_0[y_0.length - 1] = getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d 
+			y_0[y_0.length - 1] = getBC.dirichlet.implicit[solverConfig.discretization].euler(BC.dirichlet.east, dx).b_d 
 			
 		let y = [...y_0]
 		for(let i = 0; i < nt; i++) {
@@ -112,8 +112,8 @@ export const implicit = {
 		// neumann
 		y[0] = y[1]
 		y[y.length - 1] = y[y.length - 2]
-		y[0] += getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
-		y[y.length - 1] += getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
+		y[0] += getBC.neumann.implicit[solverConfig.discretization].euler(BC.neumann.west, dx).b_n
+		y[y.length - 1] += getBC.neumann.implicit[solverConfig.discretization].euler(BC.neumann.east, dx).b_n
 
 		// dirichlet
 		if(BC.dirichlet.west)
