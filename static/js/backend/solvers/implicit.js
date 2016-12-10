@@ -12,11 +12,13 @@ export const implicit = {
 		const schemeFunc = PDEs.discretizePDE.implicit._1D
 
 		const generateMatrix = (N) => {
-			const A = numeric.diag(numpy.ones(N-2).map( e => 0 ))
 
+			const scheme = schemeFunc(solverConfig, PDEterms, { dx, dt }) 
+			const A = numeric.diag(numpy.ones(N-2).map( e => scheme.d ))
+
+			let sigma_west = 0
+			let sigma_east = 0
 			for(let i = 0; i < PDEterms.length; i++) {
-				const scheme = schemeFunc(solverConfig, PDEterms, { dx, dt, c: PDEterms[i].c }) 
-
 				let sigma = PDEterms[i].c* dt / dx
 				if(PDEterms[i].scheme === getScheme[2])
 					sigma = PDEterms[i].c * dt / Math.pow(dx,2)
@@ -24,31 +26,32 @@ export const implicit = {
 				// filling main diag
 				const A_copy = [...A]
 				
-				// we will map over A_0 to modify A array (data integrity)
-				// let A = [...A_0]
-		
 				// filling central diag and dealing with BC
+				
 				A_copy.map( 
 					(e, r) => {
-						A[r][r] += scheme.d
-
+						// branch prediction is on our side
 						if(r === 0) {
-							A[r][r+1] += scheme.ud
+							A[r][r+1] = scheme.ud
 
 							if(!BC.dirichlet.west)
-								A[r][r] += sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).A_n
+								sigma_west += sigma
 						} else if(r === A.length - 1) {
-							A[r][r-1] += scheme.ld
+							A[r][r-1] = scheme.ld
 
 							if(!BC.dirichlet.east)
-								A[r][r] += sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).A_n
+								sigma_east += sigma
 						} else if(r !== 0 && r !== A.length - 1) {
-							A[r][r-1] += scheme.ld
-							A[r][r+1] += scheme.ud
+							A[r][r-1] = scheme.ld
+							A[r][r+1] = scheme.ud
 						}
 					}
 				)
 			}
+
+			A[0][0] += sigma_west * getBC.neumann.implicit.euler(BC.neumann.west, dx).A_n
+			A[A.length-1][A.length-1] += sigma_east * getBC.neumann.implicit.euler(BC.neumann.east, dx).A_n
+
 
 			return A
 		}
@@ -62,22 +65,22 @@ export const implicit = {
 			RHS.splice(0, 1)
 
 			// BC
-			let sigma_0 = 0
-			let sigma_tot = 0
+			let sigma_BC_east = 0
+			let sigma_BC_west = 0
 
 			for(let i = 0; i < PDEterms.length; i++) {
 				let sigma = PDEterms[i].c* dt / dx
 				if(PDEterms[i].scheme === getScheme[2])
 					sigma = PDEterms[i].c * dt / Math.pow(dx,2)
 
-				sigma_0 += sigma
-				sigma_tot += sigma
+				sigma_BC_west += sigma
+				sigma_BC_east += sigma
 			}
 				
-			RHS[0] += sigma_0 * getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d
-			RHS[0] += sigma_0 * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
-			RHS[RHS.length-1] += sigma_tot * getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d
-			RHS[RHS.length-1] += sigma_tot * getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
+			RHS[0] += sigma_BC_west * getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d
+			RHS[0] += sigma_BC_west * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
+			RHS[RHS.length-1] += sigma_BC_east * getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d
+			RHS[RHS.length-1] += sigma_BC_east * getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
 
 			return RHS
 		}

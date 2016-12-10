@@ -13,14 +13,14 @@ import {
 } from "./actions/ConfigBar.js"
 
 export const defaultState = {
-	nx: 41,				// number of nodes in x dir
-	dt: 0.001677,			// (s) timestep
-	t: 0.03333,				// (s) want solution at time t
+	nx: 51,				// number of nodes in x dir
+	dt: 0.1677,			// (s) timestep
+	t: 163,				// (s) want solution at time t
 	c: 1,				// convection constant
 	nu: 0.7,			// diffusion constant
-	L: 2,				// (m) length of mesh 
+	L: 1,				// (m) length of mesh 
 	experiment: 1,		// (int) experiment (1d linear conv, 2d diff etc)
-	solver: 1,			// (int) solver (explicit, implicit, later dual time etc)
+	solver: 2,			// (int) solver (explicit, implicit, later dual time etc)
 	y0: 1,				// (int) initial condition type (hat, zeros, sawtooth etc)
 	BC_type: 1,			// (int) BC type (periodic, etc)
 	BC: {				// (obj) stores boundary condition info at edges

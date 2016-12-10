@@ -50,14 +50,14 @@ export const routine1D = userInput => {
 			scheme: timeScheme,
 			c: 0
 		},
-		// {
-		// 	scheme: 'centeredSpaceEuler',
-		// 	c: 0.3
-		// },
 		{
-			scheme: 'backwardSpaceEuler',
-			c: -1
-		}
+			scheme: 'centeredSpaceEuler',
+			c: 0.00112
+		},
+		// {
+		// 	scheme: 'backwardSpaceEuler',
+		// 	c: -1
+		// }
 	]
 
 	u = solvers[getSolver[solver]][config.dim](u_0, params, PDEterms, BC)

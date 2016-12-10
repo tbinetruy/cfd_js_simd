@@ -13,10 +13,10 @@ export const implicit = {
 		_1D: ({ dx, dt, c }) => {
 			const sigma = c * dt / Math.pow(dx, 2)
 			return {
-				ld: sigma,
-				d: -(2 * sigma),
+				ld: -sigma,
+				d: (2 * sigma),
 				d_last: -sigma,
-				ud: sigma
+				ud: -sigma
 			}
 		}
 	},
