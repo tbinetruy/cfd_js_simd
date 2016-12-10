@@ -9,7 +9,7 @@ import { BC } from "./BC/BC.js"
 // experiment: 'linearConv', 'nonLinearConv', etc
 export const routine1D = userInput => {
 	const { experiment, nx, solver, BC_type, BC } = userInput
-	const params = compute_param_1D['createPDE'](userInput)
+	const solverConfig = compute_param_1D['createPDE'](userInput)
 	let u_0, u_analytical
 	let u = numpy.ones(nx)
 
@@ -29,7 +29,7 @@ export const routine1D = userInput => {
 			break
 	}
 
-	u_0 = computeIC_1D[getIC[params.IC]](u, params)
+	u_0 = computeIC_1D[getIC[solverConfig.IC]](u, solverConfig)
 	// u = solvers[getSolver[solver]]._1D(u_0, PDEs[getEqn[experiment]][getSolver[solver]]._1D, params, BC)
 	
 	const config = {
@@ -64,9 +64,9 @@ export const routine1D = userInput => {
 		})
 
 
-	u = solvers[getSolver[solver]][config.dim](u_0, params, PDEterms, BC)
+	u = solvers[getSolver[solver]][config.dim](u_0, solverConfig, PDEterms, BC)
 
-	return { u_0, u, u_analytical, dx: params.dx }
+	return { u_0, u, u_analytical, dx: solverConfig.dx }
 }
 
 

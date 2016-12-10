@@ -9,7 +9,7 @@ export const discretizePDE = {
 			let u_iplus1 = 0
 
 			for(let i = 0; i < PDEterms.length; i++)
-				u_iplus1 += schemes[config.solver][PDEterms[i].scheme][config.dim]({ ...params, c: PDEterms[i].c })
+				u_iplus1 += schemes[config.solver][config.discretization][PDEterms[i].scheme][config.dim]({ ...params, c: PDEterms[i].c })
 
 			return u_iplus1
 		}
@@ -19,7 +19,7 @@ export const discretizePDE = {
 			let ud = 0, d = 0, ld = 0
 
 			for(let i = 0; i < PDEterms.length; i++) {
-				const diag = schemes[config.solver][PDEterms[i].scheme][config.dim]({ ...params, c: PDEterms[i].c })
+				const diag = schemes[config.solver][config.discretization][PDEterms[i].scheme][config.dim]({ ...params, c: PDEterms[i].c })
 				ud += diag.ud
 				d += diag.d
 				ld += diag.ld

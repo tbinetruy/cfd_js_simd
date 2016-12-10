@@ -8,7 +8,7 @@ export const explicit = {
 	// PDEterms: PDE discretization description
 	// BC: BC type
 	_1D: (y_0, solverConfig, PDEterms, BC) => {
-		const { nt, dt, dx, c, experiment } = solverConfig
+		const { nt, dt, dx, c, experiment, discretizationType } = solverConfig
 		let y = [...y_0]
 		let y_temp = numpy.ones(y.length)
 
