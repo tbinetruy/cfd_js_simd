@@ -13,9 +13,9 @@ import {
 } from "./actions/ConfigBar.js"
 
 export const defaultState = {
-	nx: 101,				// number of nodes in x dir
-	dt: 0.0044,			// (s) timestep
-	t: 0.43,				// (s) want solution at time t
+	nx: 41,				// number of nodes in x dir
+	dt: 0.001677,			// (s) timestep
+	t: 0.03333,				// (s) want solution at time t
 	c: 1,				// convection constant
 	nu: 0.7,			// diffusion constant
 	L: 2,				// (m) length of mesh 

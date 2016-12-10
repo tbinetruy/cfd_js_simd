@@ -37,14 +37,22 @@ export const routine1D = userInput => {
 		dim: '_1D',
 	}
 
+	// diff params
+	// dt: 0.001677
+	// t: 0.033333
+	// nx: 41
 	const PDEterms = [
 		{
 			scheme: 'forwardTimeEuler',
-			c: 1
+			c: -2
 		},
 		{
 			scheme: 'centeredSpaceEuler',
 			c: 0.3
+		},
+		{
+			scheme: 'backwardSpaceEuler',
+			c: 1
 		}
 	]
 
