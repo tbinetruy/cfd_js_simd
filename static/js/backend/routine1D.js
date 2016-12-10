@@ -40,10 +40,11 @@ export const routine1D = userInput => {
 	const PDEterms = [
 		{
 			scheme: 'forwardTimeEuler',
+			c: 1
 		},
 		{
-			scheme: 'backwardSpaceEuler',
-			c: -1
+			scheme: 'centeredSpaceEuler',
+			c: 0.7
 		}
 	]
 
