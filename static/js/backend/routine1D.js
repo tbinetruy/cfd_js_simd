@@ -44,7 +44,7 @@ export const routine1D = userInput => {
 		},
 		{
 			scheme: 'centeredSpaceEuler',
-			c: 0.7
+			c: 0.3
 		}
 	]
 

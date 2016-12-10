@@ -12,6 +12,7 @@ export const compute_param_1D = {
 			experiment: 0,
 			solver: getSolver[solver],
 			dim: '_1D',
+			c
 		}
 	},
 	linearConv: ({ t, nx, dt, L, c, IC }) => {
