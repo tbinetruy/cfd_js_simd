@@ -14,10 +14,10 @@ import {
 
 export const defaultState = {
 	nx: 51,				// number of nodes in x dir
-	dt: 0.1677,			// (s) timestep
-	t: 163,				// (s) want solution at time t
+	dt: 0.01677,			// (s) timestep
+	t: 0.3,				// (s) want solution at time t
 	c: 1,				// convection constant
-	nu: 0.7,			// diffusion constant
+	nu: 0.001,			// diffusion constant
 	L: 2,				// (m) length of mesh 
 	experiment: 1,		// (int) experiment (1d linear conv, 2d diff etc)
 	solver: 2,			// (int) solver (explicit, implicit, later dual time etc)

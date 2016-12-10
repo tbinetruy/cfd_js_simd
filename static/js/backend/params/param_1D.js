@@ -1,7 +1,7 @@
 import { getSolver, getEqn, getBC_type, getIC } from "../app_config.js"
 
 export const compute_param_1D = {
-	createPDE: ({ t, nx, dt, L, c, IC, BC, solver }) => {
+	createPDE: ({ t, nx, dt, L, c, nu, IC, BC, solver }) => {
 		return {
 			nt: t / dt,
 			nx,
@@ -12,7 +12,8 @@ export const compute_param_1D = {
 			experiment: 0,
 			solver: getSolver[solver],
 			dim: '_1D',
-			c
+			c,
+			nu
 		}
 	},
 	linearConv: ({ t, nx, dt, L, c, IC }) => {

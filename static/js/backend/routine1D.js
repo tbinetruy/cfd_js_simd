@@ -25,7 +25,7 @@ export const routine1D = userInput => {
 			break
 		case 4:
 			//u_0 = computeIC_1D.burgers(u, params)
-			u_analytical = solutions.burgers._1D(params.nx, params.nt * params.dt, params.nu)
+			//u_analytical = solutions.burgers._1D(params.nx, params.nt * params.dt, params.nu)
 			break
 	}
 
@@ -50,15 +50,19 @@ export const routine1D = userInput => {
 			scheme: timeScheme,
 			c: 0
 		},
-		// {
-		// 	scheme: 'centeredSpaceEuler',
-		// 	c: 0.00112
-		// },
-		{
-			scheme: 'backwardSpaceEuler',
-			c: -1
-		}
 	]
+
+	if(userInput.experiment === 1 || userInput.experiment === 4)
+		PDEterms.push({
+			scheme: 'backwardSpaceEuler',
+			c: -userInput.c
+		})
+	if(userInput.experiment === 3 || userInput.experiment === 4)
+		PDEterms.push({
+			scheme: 'centeredSpaceEuler',
+			c: userInput.nu
+		})
+
 
 	u = solvers[getSolver[solver]][config.dim](u_0, params, PDEterms, BC)
 
