@@ -20,3 +20,10 @@ export const getEqn = {
 	3: 'diffusion',
 	4: 'burgers',
 }
+
+export const getScheme = {
+	1: 'backwardSpaceEuler',
+	2: 'centeredSpaceEuler',
+	3: 'forwardTimeEuler',
+	4: 'backwardTimeEuler',
+}

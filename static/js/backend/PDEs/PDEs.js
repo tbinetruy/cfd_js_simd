@@ -14,20 +14,21 @@ export const discretizePDE = {
 			return u_iplus1
 		}
 	},
-	implicit: (config, PDEterms, params) => {
+	implicit: {
 		_1D: (config, PDEterms, params) => {
-			let ud, d, ls
+			let ud = 0, d = 0, ld = 0
 
 			for(let i = 0; i < PDEterms.length; i++) {
-				ud += schemes[config.solver][PDEterms[i].scheme][config.dim]({ ...params, c: PDEterms[i].c }).ud
-				d += schemes[config.solver][PDEterms[i].scheme][config.dim]({ ...params, c: PDEterms[i].c }).d
-				ld += schemes[config.solver][PDEterms[i].scheme][config.dim]({ ...params, c: PDEterms[i].c }).ld
+				const diag = schemes[config.solver][PDEterms[i].scheme][config.dim]({ ...params, c: PDEterms[i].c })
+				ud += diag.ud
+				d += diag.d
+				ld += diag.ld
 			}
 
 			return {
 				ud,
 				d,
-				ls
+				ld
 			}
 		}
 	},

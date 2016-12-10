@@ -1,6 +1,6 @@
 export const implicit = {
 	backwardTimeEuler: {
-		_1D: (dx, dt, c)  => {
+		_1D: ({ dx, dt, c })  => {
 			const sigma = c * dt / dx
 			return {
 				ld: 0,
@@ -10,7 +10,7 @@ export const implicit = {
 		}
 	},
 	centeredSpaceEuler: {
-		_1D: (dx, dt, c) => {
+		_1D: ({ dx, dt, c }) => {
 			const sigma = c * dt / Math.pow(dx, 2)
 			return {
 				ld: sigma,
@@ -21,8 +21,8 @@ export const implicit = {
 		}
 	},
 	backwardSpaceEuler: {
-		_1D: (dx, dt, c) => {
-			const sigma = c * dt / dx
+		_1D: ({ dx, dt, c }) => {
+			const sigma = c * dt / dx;
 			return {
 				ld: -sigma,
 				d: (sigma),

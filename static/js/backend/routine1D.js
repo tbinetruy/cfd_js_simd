@@ -41,18 +41,22 @@ export const routine1D = userInput => {
 	// dt: 0.001677
 	// t: 0.033333
 	// nx: 41
+	let timeScheme = 'forwardTimeEuler'
+	if(getSolver[solver] === getSolver[2])
+		timeScheme = 'backwardTimeEuler'	// implicit
+
 	const PDEterms = [
 		{
-			scheme: 'forwardTimeEuler',
+			scheme: timeScheme,
 			c: 0
 		},
-		{
-			scheme: 'centeredSpaceEuler',
-			c: 0.3
-		},
+		// {
+		// 	scheme: 'centeredSpaceEuler',
+		// 	c: 0.3
+		// },
 		{
 			scheme: 'backwardSpaceEuler',
-			c: -3
+			c: -1
 		}
 	]
 

@@ -1,40 +1,54 @@
 import numeric from "numeric"
 import { BC as getBC } from "../BC/BC.js"
+import { PDEs } from "../PDEs/PDEs.js"
+import { getScheme } from "../app_config.js"
 
 export const implicit = {
-	_1D: (array, scheme, params, BC) => {
-		const { nt, dt, dx } = params
-		const y_0 = [...array]
-		const nu = params.nu
-		const alpha = params.c;
+	_1D: (y_0, solverConfig, PDEterms, BC) => {
+		const { nt, dt, dx } = solverConfig 
+		y_0 = [...y_0]
 
-		let sigma = alpha * dt / Math.pow(dx,2)
-		if(params.experiment <= 2)
-			sigma = alpha * dt / dx
+
+		const schemeFunc = PDEs.discretizePDE.implicit._1D
 
 		const generateMatrix = (N) => {
+			const A = numeric.diag(numpy.ones(N-2).map( e => 0 ))
 
-			let A_0 = numeric.diag(numpy.ones(N-2).map( e => e*(scheme(dx, dt, nu, alpha).d)))	
-			let A = [...A_0]
+			for(let i = 0; i < PDEterms.length; i++) {
+				const scheme = schemeFunc(solverConfig, PDEterms, { dx, dt, c: PDEterms[i].c }) 
 
-			A_0.map( 
+				let sigma = PDEterms[i].c* dt / dx
+				if(PDEterms[i].scheme === getScheme[2])
+					sigma = PDEterms[i].c * dt / Math.pow(dx,2)
+
+				// filling main diag
+				const A_copy = [...A]
+				
+				// we will map over A_0 to modify A array (data integrity)
+				// let A = [...A_0]
+		
+				// filling central diag and dealing with BC
+				A_copy.map( 
 					(e, r) => {
+						A[r][r] += scheme.d
+
 						if(r === 0) {
-							A[r][r+1] = scheme(dx, dt, nu, alpha).ud
+							A[r][r+1] += scheme.ud
 
 							if(!BC.dirichlet.west)
 								A[r][r] += sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).A_n
 						} else if(r === A.length - 1) {
-							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
+							A[r][r-1] += scheme.ld
 
 							if(!BC.dirichlet.east)
 								A[r][r] += sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).A_n
 						} else if(r !== 0 && r !== A.length - 1) {
-							A[r][r-1] = scheme(dx, dt, nu, alpha).ld
-							A[r][r+1] = scheme(dx, dt, nu, alpha).ud
+							A[r][r-1] += scheme.ld
+							A[r][r+1] += scheme.ud
 						}
 					}
 				)
+			}
 
 			return A
 		}
@@ -48,10 +62,22 @@ export const implicit = {
 			RHS.splice(0, 1)
 
 			// BC
-			RHS[0] += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d
-			RHS[0] += sigma * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
-			RHS[RHS.length-1] += sigma * getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d
-			RHS[RHS.length-1] += sigma * getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
+			let sigma_0 = 0
+			let sigma_tot = 0
+
+			for(let i = 0; i < PDEterms.length; i++) {
+				let sigma = PDEterms[i].c* dt / dx
+				if(PDEterms[i].scheme === getScheme[2])
+					sigma = PDEterms[i].c * dt / Math.pow(dx,2)
+
+				sigma_0 += sigma
+				sigma_tot += sigma
+			}
+				
+			RHS[0] += sigma_0 * getBC.dirichlet.implicit.euler(BC.dirichlet.west, dx).b_d
+			RHS[0] += sigma_0 * getBC.neumann.implicit.euler(BC.neumann.west, dx).b_n
+			RHS[RHS.length-1] += sigma_tot * getBC.dirichlet.implicit.euler(BC.dirichlet.east, dx).b_d
+			RHS[RHS.length-1] += sigma_tot * getBC.neumann.implicit.euler(BC.neumann.east, dx).b_n
 
 			return RHS
 		}
