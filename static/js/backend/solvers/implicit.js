@@ -69,7 +69,7 @@ export const implicit = {
 			let sigma_BC_west = 0
 
 			for(let i = 0; i < PDEterms.length; i++) {
-				let sigma = PDEterms[i].c* dt / dx
+				let sigma = -PDEterms[i].c* dt / dx
 				if(PDEterms[i].scheme === getScheme[2])
 					sigma = PDEterms[i].c * dt / Math.pow(dx,2)
 
