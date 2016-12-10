@@ -38,7 +38,7 @@ export const explicit = {
 			if(BC.dirichlet.west)
 				y[0] = getBC.dirichlet.explicit.euler(BC.dirichlet.west)
 			if(BC.dirichlet.east)
-				y[0] = getBC.dirichlet.explicit.euler(BC.dirichlet.east)
+				y[y.length-1] = getBC.dirichlet.explicit.euler(BC.dirichlet.east)
 		}
 
 		return y
